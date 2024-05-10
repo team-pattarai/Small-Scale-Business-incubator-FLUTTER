@@ -20,12 +20,12 @@ class DropDownText extends StatelessWidget {
       child: ExpansionTile(
         title: Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: 'Capriola',
           ),
         ),
         leading: Icon(icon),
-        childrenPadding: const EdgeInsets.only(left: 60),
+        childrenPadding: EdgeInsets.only(left: 60),
         children: buttonRack,
       ),
     );
