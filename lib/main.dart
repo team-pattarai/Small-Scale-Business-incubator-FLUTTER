@@ -7,6 +7,11 @@ import 'package:flutter_application_1/pages/business.dart';
 import 'package:flutter_application_1/pages/orders.dart'; 
 import 'package:flutter_application_1/pages/home.dart';
 
+
+// COLORS
+final List color=[Color.fromRGBO(193, 233, 233, 1),Color.fromRGBO(181, 243, 243, 1),Color.fromRGBO(196, 223, 223, 1)];
+
+
 class MainScreenBody extends StatefulWidget {
   const MainScreenBody({Key? key}) : super(key: key);
 
@@ -18,7 +23,7 @@ class _MainScreenBodyState extends State<MainScreenBody> {
   int currentIndex = 0;
 
 
-  final List pages=[Homepage(),Homepage(),Orders(), Profile()];
+  final List pages=[Homepage(),Homepage(),Orders(), ProfilePage()];
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
