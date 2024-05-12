@@ -30,7 +30,8 @@ class _MainScreenBodyState extends State<MainScreenBody> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
       backgroundColor: Color.fromRGBO(193, 233, 233, 1),
-      appBar: AppBar(
+      appBar: 
+      AppBar(
         shape:  RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(25))),
         elevation: .3,
