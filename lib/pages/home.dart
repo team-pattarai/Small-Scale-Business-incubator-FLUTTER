@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/main.dart';
 
+import 'package:flutter_application_1/pages/subpages/category.dart';
 // ignore: must_be_immutable
 class Homepage extends StatelessWidget {
 
@@ -9,8 +9,27 @@ class Homepage extends StatelessWidget {
   'F1',
   'F2',
   'F3',
-];
-
+];  List<Color> color = [
+    Colors.red,
+    Colors.green,
+    Colors.blue,
+  ];
+  final List<String> collections = [
+    'philo',
+    'sasidaran',
+    'collection3',
+    'collection4',
+        'sasidaran',
+    'collection3',
+    'collection4',
+        'sasidaran',
+    'collection3',
+    'collection4',
+        'sasidaran',
+    'collection3',
+    'collection4',
+    // Add more collections as needed
+  ];
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -19,15 +38,15 @@ class Homepage extends StatelessWidget {
         Container(
           height: 390,
           width: double.infinity,
-          margin: EdgeInsets.all(15),
+          margin: const EdgeInsets.all(15),
           decoration: BoxDecoration(
-              color: Color.fromARGB(255, 253, 255, 253),
+              color: const Color.fromARGB(255, 253, 255, 253),
               borderRadius: BorderRadius.circular(10)),
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Businesses",
                 style: TextStyle(
                   color: Color.fromARGB(255, 96, 136, 134),
@@ -37,19 +56,33 @@ class Homepage extends StatelessWidget {
               ),
               Expanded(
                 child: GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                   ),
                   children: List.generate(
                     12,
-                    (index) => Container(
-                      padding: EdgeInsets.all(10),
-                      height: 75,
-                      width: 75,
-                      color: Color.fromRGBO(248, 246, 244, 1),
-                    ),
+
+                    (index) => GestureDetector(
+            onTap: () {
+              // Call a function or navigate to a new widget with the index
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CategoryBasedList(collectionName: collections[index]),
+                ),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              height: 75,
+              width: 75,
+              color: const Color.fromRGBO(248, 246, 244, 1),
+            ),
+          ),
+        
+                    
                   ),
                 ),
               ),
@@ -58,21 +91,21 @@ class Homepage extends StatelessWidget {
         ),
         Container(
           height: 137,
-          margin: EdgeInsets.only(left: 15,right: 15),
+          margin: const EdgeInsets.only(left: 15,right: 15),
           width: double.maxFinite,
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: Color.fromARGB(255, 250, 255, 250),
+            color: const Color.fromARGB(255, 250, 255, 250),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
             
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Quick links",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,color: Color.fromARGB(255, 106, 140, 145)),),
+              const Text("Quick links",style: TextStyle(fontSize: 22,fontWeight: FontWeight.bold,color: Color.fromARGB(255, 106, 140, 145)),),
               Expanded(
                 child: GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4,
                   ),
                   children: List.generate(
@@ -84,7 +117,7 @@ class Homepage extends StatelessWidget {
         Center(
           child: Text(
             texts[index], // Set the text for each container
-            style: TextStyle(
+            style: const TextStyle(
               color: Color.fromARGB(255, 52, 185, 174),
               fontSize: 10,
             ),

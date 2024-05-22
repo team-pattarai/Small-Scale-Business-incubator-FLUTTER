@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 class DropDownText extends StatelessWidget {
   const DropDownText({
     super.key,
@@ -20,12 +21,12 @@ class DropDownText extends StatelessWidget {
       child: ExpansionTile(
         title: Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontFamily: 'Capriola',
           ),
         ),
         leading: Icon(icon),
-        childrenPadding: EdgeInsets.only(left: 60),
+        childrenPadding: const EdgeInsets.only(left: 60),
         children: buttonRack,
       ),
     );
