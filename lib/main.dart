@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/landlog/landing.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import 'package:flutter_application_1/components/DrawerItems.dart';
@@ -9,7 +10,18 @@ import 'package:flutter_application_1/pages/home.dart';
 
 final List color=[const Color.fromRGBO(193, 233, 233, 1),const Color.fromRGBO(181, 243, 243, 1),const Color.fromRGBO(196, 223, 223, 1)];
 
+class Landing extends StatelessWidget {
+  const Landing({super.key});
 
+  @override
+  Widget build(BuildContext context) {
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: LandingPage(),
+    );
+  }
+}
 class MainScreenBody extends StatefulWidget {
   const MainScreenBody({Key? key}) : super(key: key);
 
@@ -24,9 +36,7 @@ class _MainScreenBodyState extends State<MainScreenBody> {
   final List pages=[Homepage(),Homepage(),Orders(), const ProfilePage()];
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
+    return  Scaffold(
       backgroundColor: const Color.fromRGBO(193, 233, 233, 1),
       appBar: 
       AppBar(
@@ -56,7 +66,6 @@ class _MainScreenBodyState extends State<MainScreenBody> {
           });
         },
       ),
-    )
     );
   }
 }
@@ -135,5 +144,5 @@ class _Navbar extends StatelessWidget {
 }
 
 void main() {
-  runApp( const MainScreenBody());
+  runApp( const Landing());
 }
