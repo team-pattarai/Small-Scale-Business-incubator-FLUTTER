@@ -1,5 +1,5 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/pages/landlog/signup.dart';
 import 'package:flutter_application_1/pages/landlog/authentication.dart';
@@ -13,8 +13,8 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final TextEditingController _usernameController = TextEditingController();
-
   final TextEditingController _passwordController = TextEditingController();
+  bool _obscureText = true;
 
   Future<void> _login(BuildContext context) async {
     String username = _usernameController.text;
@@ -52,15 +52,16 @@ class _SignInState extends State<SignIn> {
                 borderRadius: BorderRadius.circular(20),
               ),
               child: const Center(
-                  child: Text(
-                'Login failed',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: 'Capriola',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+                child: Text(
+                  'Login failed',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Capriola',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              )),
+              ),
             ),
           ),
         ),
@@ -73,49 +74,96 @@ class _SignInState extends State<SignIn> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: color[1],
-      body: Center(child:Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(height: 100,),
-          Image.asset('assets/images/Login.jpg',height: 200,),
-          Padding(padding: EdgeInsets.symmetric(horizontal: 60,vertical: 10),
-            child: TextField(decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25)
-              ),
-              labelText: 'Email Id',
-              hintText: 'Enter valid email id as abc@gmail.com'
-            ),
-            controller: _usernameController,
+      resizeToAvoidBottomInset: true,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 170),
+                Image.asset('assets/images/Login.jpg', height: 200),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      labelText: 'Email Id',
+                      hintText: 'Enter valid email id as abc@gmail.com',
+                    ),
+                    controller: _usernameController,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+                  child: TextField(
+                    obscureText: _obscureText,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      labelText: 'Password',
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            _obscureText = !_obscureText;
+                          });
+                        },
+                        icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility),
+                      ),
+                    ),
+                    controller: _passwordController,
+                  ),
+                ),
+                Container(
+                  height: 50,
+                  width: double.maxFinite,
+                  margin: const EdgeInsets.symmetric(horizontal: 90, vertical: 15),
+                  decoration: BoxDecoration(
+                    color: Colors.blueGrey,
+                    borderRadius: BorderRadius.circular(25),
+                  ),
+                  child: InkWell(
+                    onTap: () => _login(context),
+                    child: const Center(
+                      child: Text(
+                        "Submit",
+                        style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+                RichText(
+                  text: TextSpan(
+                    text: 'Don\'t have an account? ',
+                    style: TextStyle(color: Colors.black),
+                    children: [
+                      TextSpan(
+                        text: 'Sign Up',
+                        style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            // Navigate to login page
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => SignUp()),
+                            );
+                          },
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 35,),
+                
+                
+
+              ],
             ),
           ),
-          Padding(padding: EdgeInsets.symmetric(horizontal: 60,vertical: 10),
-            child: TextField(decoration: InputDecoration(
-              
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25)
-              ),
-              
-              labelText: 'Password',
-            ),
-            controller: _passwordController
-            ,),
-          ),
-          Container(
-            height: 50,
-            width: double.maxFinite,
-            margin: EdgeInsets.symmetric(horizontal: 90,vertical: 15),
-            decoration: BoxDecoration(color: Colors.blueGrey, borderRadius: BorderRadius.circular(25)),
-            child: InkWell( 
-              onTap:  () => _login(context),
-              child: Center( child:  Text("Submit",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),))
-            )),
-          
-          Container(child: Column(
-            children: [
-              Text("Powered By",style: TextStyle(fontSize: 16),),
-              Image.asset('assets/images/Text Black.png',height: 100,width: 175,)],),),
-        ],
-      ),),);
+        ),
+      ),
+    );
   }
 }
