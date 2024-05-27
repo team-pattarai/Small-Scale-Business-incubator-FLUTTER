@@ -3,7 +3,7 @@ import 'package:mongo_dart/mongo_dart.dart' show Db;
 class DB {
   static Db? _db;
   static String _getConnectionString() {
-    return "mongodb+srv://maintainer_philix:qwertyuiop@carbonpi.hiozz58.mongodb.net/Project-X?retryWrites=true&w=majority";
+    return "mongodb+srv://maintainer_philix:qwertyuiop@carbonpi.hiozz58.mongodb.net/SB_Incubator?retryWrites=true&w=majority";
   }
 
   static Future<Db?> getDB() async {
