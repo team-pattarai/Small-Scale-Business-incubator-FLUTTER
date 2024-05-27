@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import 'package:flutter_application_1/main.dart';
 
@@ -11,12 +10,6 @@ class Orders extends StatefulWidget {
 class _OrdersState extends State<Orders> {
   List<String> orders = ["Order 1", "Order 2", "Order 3"]; // Sample orders list
 
-  void _addOrder() {
-    setState(() {
-      int nextOrderNumber = orders.length + 1;
-      orders.add("Order $nextOrderNumber");
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,23 +48,26 @@ class _OrdersState extends State<Orders> {
   itemBuilder: (BuildContext context, int index) {
     return Container(
       height: 100,
-      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white54,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
+        
         children: [
           Expanded(
             child: ListTile(
+            
               title: Text(
                 orders[index],
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20),
               ),
             ),
           ),
-          SizedBox(width: 20), // Adjust the width as needed for spacing
-          Text("Date : 12/05/2024"),
+          const SizedBox(width: 20), // Adjust the width as needed for spacing
+          const Text("Date : 12/05/2024"),
         ],
       ),
     );
@@ -91,7 +87,7 @@ class _OrdersState extends State<Orders> {
   itemBuilder: (BuildContext context, int index) {
     return Container(
       height: 100,
-      margin: EdgeInsets.all(10),
+      margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white54,
         borderRadius: BorderRadius.circular(10),
@@ -102,12 +98,12 @@ class _OrdersState extends State<Orders> {
             child: ListTile(
               title: Text(
                 orders[index],
-                style:   TextStyle(fontSize: 20),
+                style:   const TextStyle(fontSize: 20),
               ),
             ),
           ),
-          SizedBox(width: 20), // Adjust the width as needed for spacing
-          Text("Date : 12/05/2024"),
+          const SizedBox(width: 20), // Adjust the width as needed for spacing
+          const Text("Date : 12/05/2024"),
         ],
       ),
     );
