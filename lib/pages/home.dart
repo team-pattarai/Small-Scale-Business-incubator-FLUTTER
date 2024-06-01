@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/subpages/category.dart';
+import 'package:flutter_application_1/main.dart';
 
 class Homepage extends StatelessWidget {
   List<String> texts = [
@@ -24,11 +25,10 @@ class Homepage extends StatelessWidget {
     'Home Decor',
     'Gifts',
     'Cleaning',
-    'Design Consulting',
+    'Home Design',
     'Tech',
     'Pet Care',
-    'Wellness and Spa',
-    'collection3',
+    'Wellness, Spa',
     'Others',
     // Add more collections as needed
   ];
@@ -60,6 +60,7 @@ class Homepage extends StatelessWidget {
         return shouldExit ?? false;
       },
       child: Scaffold(
+        backgroundColor: const Color.fromRGBO(181, 243, 243, 1),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -104,10 +105,15 @@ class Homepage extends StatelessWidget {
                             );
                           },
                           child: Container(
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(1),
                             height: 75,
                             width: 75,
-                            color: const Color.fromRGBO(248, 246, 244, 1),
+                            child: Column(children: [Container(
+                              height: 75,
+                              width: 75,
+                              decoration: BoxDecoration(color: Colors.blueAccent,borderRadius: BorderRadius.circular(60)),
+                            ),
+                            Text(collections[index],style: TextStyle(),softWrap: false,)],),
                           ),
                         );
                       },

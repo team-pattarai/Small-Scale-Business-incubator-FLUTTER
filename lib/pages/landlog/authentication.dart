@@ -22,3 +22,30 @@ Future<bool> loginin(String username, String password) async {
   }
   return false;
 }
+String password_gen(String passkey){
+  return passkey;
+}
+Future<bool> Signupup(String username, String password,String email,String mode,String confpassword) async {
+  var db = await DB.getDB();  
+  if (db != null) {
+    List<Map<String, dynamic>> users = await findByName(email,db);
+    if (users ==[]){
+       if(password==confpassword) {
+      print("in");
+      var collection = db.collection("UserManagerment");
+      print("idk y");
+    await collection.insert({
+      'user': email,
+      'passkey': password_gen(password),
+      'mode' : mode,
+      'init': 'false'
+    });
+    return true;
+    }
+    }
+    else {
+      return false;
+    }
+  }
+  return false;
+}
