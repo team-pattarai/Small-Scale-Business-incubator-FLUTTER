@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter_application_1/pages/business.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_application_1/db/connect.dart';
 
@@ -87,7 +89,25 @@ class _CategoryBasedListState extends State<CategoryBasedList> {
                   print('Error parsing star count: $e');
                 }
 
-                return Container(
+                return InkWell(onTap: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => Business(data:data,index:index),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      const begin = Offset(1.0, 0.0);
+                      const end = Offset.zero;
+                      const curve = Curves.easeInOut;
+                      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                      var offsetAnimation = animation.drive(tween);
+                      return SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },child:  Container(
                   width: screenWidth,
                   height: 160, // Increase the height to accommodate the review bar
                   margin: const EdgeInsets.all(10),
@@ -164,8 +184,8 @@ class _CategoryBasedListState extends State<CategoryBasedList> {
                       const SizedBox(height: 16), // Add some spacing
                     ],
                   ),
-                );
-
+              ));
+                
               },
             ),
     );

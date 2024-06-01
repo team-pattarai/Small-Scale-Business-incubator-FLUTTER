@@ -19,10 +19,10 @@ class _loginPageState extends State<loginPage> {
       body: Center(child:Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 100,),
+          const SizedBox(height: 100,),
           Image.asset('assets/images/Login.jpg',height: 200,),
-          SizedBox(height: 15,),
-          Text("Hello",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 35,color: Color.fromARGB(255, 90, 90, 90)),),
+          const SizedBox(height: 15,),
+          const Text("Hello",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 35,color: Color.fromARGB(255, 90, 90, 90)),),
           SizedBox(height: 3,),
           Text("Description os the app",style: TextStyle(fontSize: 17),),
           SizedBox(height: 14,),
@@ -52,11 +52,11 @@ class _loginPageState extends State<loginPage> {
               },child:  Center(child:  Text("Login",style: TextStyle(fontSize: 26,fontWeight: FontWeight.w400),))),
             
           ),
-          SizedBox(height: 20,),          
+          const SizedBox(height: 20,),          
           Container(
             height: 60,
             width: double.maxFinite,
-            margin: EdgeInsets.only(left: 60,right: 60),
+            margin: const EdgeInsets.only(left: 60,right: 60),
             decoration: BoxDecoration(color: color[0],borderRadius: BorderRadius.circular(25),border: Border.all(color: Colors.blueGrey,width: 3)),   
             child:InkWell(onTap: () {
                 Navigator.push(

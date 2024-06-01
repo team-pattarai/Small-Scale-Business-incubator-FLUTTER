@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/subpages/category.dart';
-import 'package:flutter_application_1/main.dart';
 
 class Homepage extends StatelessWidget {
   List<String> texts = [
@@ -35,6 +34,7 @@ class Homepage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         final shouldExit = await showDialog<bool>(
@@ -113,7 +113,7 @@ class Homepage extends StatelessWidget {
                               width: 75,
                               decoration: BoxDecoration(color: Colors.blueAccent,borderRadius: BorderRadius.circular(60)),
                             ),
-                            Text(collections[index],style: TextStyle(),softWrap: false,)],),
+                            Text(collections[index],style: const TextStyle(),softWrap: false,)],),
                           ),
                         );
                       },
@@ -149,28 +149,26 @@ class Homepage extends StatelessWidget {
                       ),
                       itemCount: texts.length,
                       itemBuilder: (context, index) {
-                        return Container(
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 70,
-                                width: 70,
-                                decoration: BoxDecoration(
-                                  color: color[index % color.length],
-                                  shape: BoxShape.circle,
+                        return Column(
+                          children: [
+                            Container(
+                              height: 70,
+                              width: 70,
+                              decoration: BoxDecoration(
+                                color: color[index % color.length],
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            Center(
+                              child: Text(
+                                texts[index],
+                                style: const TextStyle(
+                                  color: Color.fromARGB(255, 52, 185, 174),
+                                  fontSize: 10,
                                 ),
                               ),
-                              Center(
-                                child: Text(
-                                  texts[index],
-                                  style: const TextStyle(
-                                    color: Color.fromARGB(255, 52, 185, 174),
-                                    fontSize: 10,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         );
                       },
                     ),

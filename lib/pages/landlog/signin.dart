@@ -138,24 +138,23 @@ class _SignInState extends State<SignIn> {
                 RichText(
                   text: TextSpan(
                     text: 'Don\'t have an account? ',
-                    style: TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
                         text: 'Sign Up',
-                        style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                        style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            // Navigate to login page
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => SignUp()),
+                              MaterialPageRoute(builder: (context) => const SignUp()),
                             );
                           },
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 35,),
+                const SizedBox(height: 35,),
                 
                 
 
