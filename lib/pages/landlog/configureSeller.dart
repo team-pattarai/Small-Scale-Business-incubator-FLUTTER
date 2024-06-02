@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/pages/landlog/authentication.dart';
 
 class ConfigurePage extends StatefulWidget {
   const ConfigurePage({super.key});
@@ -10,8 +12,8 @@ class ConfigurePage extends StatefulWidget {
 class _ConfigurePageState extends State<ConfigurePage> {
   final TextEditingController _companyName = TextEditingController();
   final TextEditingController _location = TextEditingController();
-  final TextEditingController _password = TextEditingController();
-  final TextEditingController _confpassword = TextEditingController();
+  final TextEditingController _email = TextEditingController();
+  final TextEditingController _speciality = TextEditingController();
   String? _selectedCategory;
   final List<String> _options = [
     'Catering',
@@ -29,21 +31,39 @@ class _ConfigurePageState extends State<ConfigurePage> {
     // Add more collections as needed
   ];
 
-  List<List<String>> services = [
-    ['fdgdfhsfdgdfsfdfsfsd', '111', '1111', 'awuffys sudyfsdbfis fesbd uefbaueybfwrus s uyb grsusyfug szuv ervjhrw sub rw'],
-    ['ser2', '111', '1111', 'sigeuf sdiyfbsd seifdbs sdudsd sidf sdikbsd sidgb sdxikshvd f sjhvfs'],
-    ['ser3', '111', '1111', 'dfsgsf sdh g gf fg hsa f srfg ddvy yx vxfg hvh fysg gvftehd dv4yed bg rfv e bn'],
-    ['ser4', '111', '1111', 'sdb v jv jy jhyt fjh dfutf i utf iru tuitf iu tkf uyjc ytgvbhj rextcfyvgbu redctv yb5edrtfvy'],
-  ];
 
-  bool _obscureText = true;
+
+  List<List<String>> services = [];
+
 
   Future<void> _configurePage(BuildContext context) async {
-    String username = _companyName.text;
-    String password = _location.text;
-    String email = _companyName.text;
-    String confpassword = _confpassword.text;
-    String mode = _selectedCategory.toString();
+    String companyName= _companyName.text;
+    String Addy = _location.text;
+    String Category = _selectedCategory.toString();
+    String Email = _email.text;
+    String Spec = _speciality.text;
+    if (await Configure(companyName,Addy,Category,services,Email,Spec)){
+      Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => const MainScreenBody(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      const begin = Offset(1.0, 0.0);
+                      const end = Offset.zero;
+                      const curve = Curves.easeInOut;
+                      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                      var offsetAnimation = animation.drive(tween);
+                      return SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+    }
+    else{
+      _warningBubble();
+    }
 
   }
 
@@ -126,6 +146,19 @@ class _ConfigurePageState extends State<ConfigurePage> {
                     ),
                     controller: _companyName,
                   ),
+                ),Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.email_rounded),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      labelText: 'Email',
+                      hintText: 'Enter Login Email',
+                    ),
+                    controller: _email,
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
@@ -139,6 +172,19 @@ class _ConfigurePageState extends State<ConfigurePage> {
                       hintText: 'Enter your Location',
                     ),
                     controller: _location,
+                  ),
+                ),Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 10),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.favorite),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      labelText: 'Speciality',
+                      hintText: 'Enter your Speciality',
+                    ),
+                    controller: _speciality,
                   ),
                 ),
                  Padding(

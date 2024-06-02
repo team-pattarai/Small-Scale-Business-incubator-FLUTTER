@@ -29,7 +29,7 @@ class _SignUpState extends State<SignUp> {
 
     if (await Signupup( username,  password, email, mode, confpassword)==1) {
       
-      loginPage();
+      const loginPage();
     } else {
       _warningBubble();
     }

@@ -21,9 +21,9 @@ class _BusinessState extends State<Business> {
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
         title: Center(child: Text(widget.data[widget.index][0])),
-        actions: [
+        actions: const [
           Padding(
-            padding: const EdgeInsets.only(right: 12.0),
+            padding: EdgeInsets.only(right: 12.0),
             child: Icon(Icons.heart_broken_outlined),
           )
         ],
@@ -32,12 +32,12 @@ class _BusinessState extends State<Business> {
         child: Column(
           children: [
             BlueGreyContainer(data: widget.data[widget.index]),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             FutureBuilder<List<List<List<String>>>>(
               future: fetchColors(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(
+                  return const Center(
                     child: SpinKitFadingCube(
                       color: Colors.blue,
                       size: 50.0,
@@ -50,7 +50,7 @@ class _BusinessState extends State<Business> {
                 }
               },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
           ],
         ),
       ),
@@ -58,7 +58,7 @@ class _BusinessState extends State<Business> {
   }
 
   Future<List<List<List<String>>>> fetchColors() async {
-    await Future.delayed(Duration(seconds: 2)); // Simulating a 2-second delay
+    await Future.delayed(const Duration(seconds: 2)); // Simulating a 2-second delay
     return [
       [
         ["50", "discount 1"],
@@ -86,7 +86,7 @@ class BlueGreyContainer extends StatelessWidget {
     return Container(
       height: 80,
       width: double.maxFinite,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.blueGrey,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(25),
@@ -95,8 +95,8 @@ class BlueGreyContainer extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text(data[1], style: TextStyle(fontSize: 18), maxLines: 2),
-          SizedBox(height: 10),
+          Text(data[1], style: const TextStyle(fontSize: 18), maxLines: 2),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(
@@ -165,28 +165,28 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
             itemCount: widget.colors[0].length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                decoration: BoxDecoration(
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                decoration: const BoxDecoration(
                   color: Color.fromARGB(87, 96, 125, 139),
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
                 width: double.maxFinite,
                 child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 6),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 15, right: 6),
                       child: Icon(Icons.discount_rounded),
                     ),
                     Text(
-                      widget.colors[0][index][0] + "%",
-                      style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                      "${widget.colors[0][index][0]}%",
+                      style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Padding(
                       padding: const EdgeInsets.only(right: 15.0),
                       child: Text(
                         widget.colors[0][index][1],
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+                        style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
                       ),
                     ),
                   ],
@@ -195,19 +195,19 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
             },
           ),
         ),
-        Text(
+        const Text(
           '-> SERVICES <-',
           style: TextStyle(fontSize: 21, fontWeight: FontWeight.w500),
         ),
         Container(
           height: 500, // Set a specific height
           child: ListView.builder(
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             itemCount: widget.colors[1].length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                decoration: BoxDecoration(
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                decoration: const BoxDecoration(
                   color: Color.fromARGB(87, 96, 125, 139),
                   borderRadius: BorderRadius.all(Radius.circular(10)),
                 ),
@@ -218,7 +218,7 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
                     children: [
                       Container(
                         width: 80,
-                        child: Icon(Icons.food_bank_rounded),
+                        child: const Icon(Icons.food_bank_rounded),
                       ),
                       Flexible(
                         child: Column(

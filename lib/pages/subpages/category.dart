@@ -11,7 +11,7 @@ Future<List<List<String>>> getCompanyList(int index, String collectionName) asyn
   var db = await DB.getDB();
 
   if (db != null) {
-    var collection = db.collection("Startup");
+    var collection = db.collection("StartUp");
     List<List<String>> categoryValues = [];
     
     final documents = await collection.find().toList();
@@ -21,7 +21,7 @@ Future<List<List<String>>> getCompanyList(int index, String collectionName) asyn
         String Name = doc['Name'];
         String Address = doc['Address'];
         String Rating = doc['Rating'].toString();
-        String Special = doc['Special'];
+        String Special = doc['Special'].toString();
         
         CompDet.add(Name);
         CompDet.add(Address);
@@ -85,8 +85,8 @@ class _CategoryBasedListState extends State<CategoryBasedList> {
                 int starCount = 0;
                 try {
                   starCount = int.parse(data[index][2]);
+                // ignore: empty_catches
                 } catch (e) {
-                  print('Error parsing star count: $e');
                 }
 
                 return InkWell(onTap: () {
@@ -144,7 +144,7 @@ class _CategoryBasedListState extends State<CategoryBasedList> {
                                     ),
                                   ),
                                   Text(
-                                    "Speciality : "+data[index][3],
+                                    "Speciality : ${data[index][3]}",
                                     style: const TextStyle(
                                       fontSize: 15,
                                     ),
