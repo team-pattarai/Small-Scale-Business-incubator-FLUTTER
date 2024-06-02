@@ -23,19 +23,19 @@ class _loginPageState extends State<loginPage> {
           Image.asset('assets/images/Login.jpg',height: 200,),
           const SizedBox(height: 15,),
           const Text("Hello",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 35,color: Color.fromARGB(255, 90, 90, 90)),),
-          SizedBox(height: 3,),
-          Text("Description os the app",style: TextStyle(fontSize: 17),),
-          SizedBox(height: 14,),
+          const SizedBox(height: 3,),
+          const Text("Description os the app",style: TextStyle(fontSize: 17),),
+          const SizedBox(height: 14,),
           Container(
             height: 60,
             width: double.maxFinite,
-            margin: EdgeInsets.only(left: 60,right: 60),
+            margin: const EdgeInsets.only(left: 60,right: 60),
             decoration: BoxDecoration(color: Colors.blueGrey,borderRadius: BorderRadius.circular(25)),          
             child:InkWell(onTap: () {
                 Navigator.push(
                   context,
                   PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => SignIn(),
+                    pageBuilder: (_, __, ___) => const SignIn(),
                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
                       const begin = Offset(1.0, 0.0);
                       const end = Offset.zero;
@@ -49,7 +49,7 @@ class _loginPageState extends State<loginPage> {
                     },
                   ),
                 );
-              },child:  Center(child:  Text("Login",style: TextStyle(fontSize: 26,fontWeight: FontWeight.w400),))),
+              },child:  const Center(child:  Text("Login",style: TextStyle(fontSize: 26,fontWeight: FontWeight.w400),))),
             
           ),
           const SizedBox(height: 20,),          
@@ -62,7 +62,7 @@ class _loginPageState extends State<loginPage> {
                 Navigator.push(
                   context,
                   PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => SignUp(),
+                    pageBuilder: (_, __, ___) => const SignUp(),
                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
                       const begin = Offset(1.0, 0.0);
                       const end = Offset.zero;
@@ -76,12 +76,12 @@ class _loginPageState extends State<loginPage> {
                     },
                   ),
                 );
-              },child:  Center(child:  Text("Sign Up",style: TextStyle(fontSize: 26,fontWeight: FontWeight.w400),))),        
+              },child:  const Center(child:  Text("Sign Up",style: TextStyle(fontSize: 26,fontWeight: FontWeight.w400),))),        
           ),
-          SizedBox(height: 35,),
+          const SizedBox(height: 35,),
           Container(child: Column(
             children: [
-              Text("Powered By",style: TextStyle(fontSize: 16),),
+              const Text("Powered By",style: TextStyle(fontSize: 16),),
               Image.asset('assets/images/Text Black.png',height: 100,width: 175,)],),),
         ],
       ),),

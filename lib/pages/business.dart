@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -67,10 +66,11 @@ class _BusinessState extends State<Business> {
         ["30", "discount 3"],
         ["20", "discount 4"],
       ],
-      [['fdgdfhsfdgdfsfdfsfsd','111','1111','awuffys sudyfsdbfis  fesbd uefbaueybfwrus s uyb grsusyfug szuv ervjhrw sub rw'],
-      ['ser2','111','1111','sigeuf sdiyfbsd seifdbs sdudsd sidf sdikbsd sidgb sdxikshvd f sjhvfs'],
-      ['ser3','111','1111','dfsgsf sdh g gf fg hsa f srfg ddvy yx vxfg hvh fysg gvftehd dv4yed bg rfv e bn'],
-      ['ser4','111','1111','sdb v jv jy jhyt fjh dfutf i utf iru tuitf iu tkf uyjc ytgvbhj rextcfyvgbu redctv yb5edrtfvy'],
+      [
+        ['fdgdfhsfdgdfsfdfsfsd', '111', '1111', 'awuffys sudyfsdbfis  fesbd uefbaueybfwrus s uyb grsusyfug szuv ervjhrw sub rw'],
+        ['ser2', '111', '1111', 'sigeuf sdiyfbsd seifdbs sdudsd sidf sdikbsd sidgb sdxikshvd f sjhvfs'],
+        ['ser3', '111', '1111', 'dfsgsf sdh g gf fg hsa f srfg ddvy yx vxfg hvh fysg gvftehd dv4yed bg rfv e bn'],
+        ['ser4', '111', '1111', 'sdb v jv jy jhyt fjh dfutf i utf iru tuitf iu tkf uyjc ytgvbhj rextcfyvgbu redctv yb5edrtfvy'],
       ]
     ];
   }
@@ -113,6 +113,7 @@ class BlueGreyContainer extends StatelessWidget {
     );
   }
 }
+
 class HorizontalSnapList extends StatefulWidget {
   final List<List<List<String>>> colors;
 
@@ -124,6 +125,7 @@ class HorizontalSnapList extends StatefulWidget {
 
 class _HorizontalSnapListState extends State<HorizontalSnapList> {
   late PageController _pageController;
+  List<int> counter = [1, 2, 3, 4];
 
   @override
   void initState() {
@@ -135,6 +137,18 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
   void dispose() {
     _pageController.dispose();
     super.dispose();
+  }
+
+  void incrementCount(int index) {
+    setState(() {
+      counter[index]++;
+    });
+  }
+
+  void decrementCount(int index) {
+    setState(() {
+      if (counter[index] > 0) counter[index]--;
+    });
   }
 
   @override
@@ -186,10 +200,9 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
           style: TextStyle(fontSize: 21, fontWeight: FontWeight.w500),
         ),
         Container(
-          height: double.maxFinite,
-          width: double.maxFinite,
+          height: 500, // Set a specific height
           child: ListView.builder(
-            scrollDirection: Axis.vertical,
+            physics: AlwaysScrollableScrollPhysics(),
             itemCount: widget.colors[1].length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
@@ -207,28 +220,67 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
                         width: 80,
                         child: Icon(Icons.food_bank_rounded),
                       ),
-                      Spacer(),
                       Flexible(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               widget.colors[1][index][0],
-                              style: TextStyle(fontSize: 22),
+                              style: const TextStyle(fontSize: 22),
                             ),
                             Text(
                               "Quantity : " + widget.colors[1][index][1],
-                              style: TextStyle(fontSize: 14),
+                              style: const TextStyle(fontSize: 14),
                             ),
                             Text(
-                              "Price : " + widget.colors[1][index][2],
-                              style: TextStyle(fontSize: 16),
+                              "Price : ${widget.colors[1][index][2]}",
+                              style: const TextStyle(fontSize: 16),
                             ),
                             Text(
-                              "Description : " + widget.colors[1][index][3],
-                              style: TextStyle(fontSize: 16),
+                              "Description : ${widget.colors[1][index][3]}",
+                              style: const TextStyle(fontSize: 16),
                               softWrap: true,
                               overflow: TextOverflow.visible,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 172, 199, 191),
+                                border: Border.all(color: Colors.black, width: 1.5),
+                              ),
+                              height: 30,
+                              width: 90,
+                              child: Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () => decrementCount(index),
+                                    child: Container(
+                                      width: 30,
+                                      child: const Icon(Icons.exposure_minus_1_rounded),
+                                    ),
+                                  ),
+                                  Container(width: 1.5, color: Colors.black),
+                                  const Spacer(),
+                                  const SizedBox(width: 4),
+                                  Center(
+                                    child: Container(
+                                      width: 20,
+                                      child: Text(
+                                        counter[index].toString(),
+                                        style: const TextStyle(fontSize: 20),
+                                      ),
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Container(width: 1.5, color: Colors.black),
+                                  InkWell(
+                                    onTap: () => incrementCount(index),
+                                    child: Container(
+                                      width: 30,
+                                      child: const Icon(Icons.plus_one_rounded),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),

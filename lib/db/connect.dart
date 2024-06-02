@@ -21,6 +21,7 @@ class DB {
         return _db;
       }
     } catch (e) {
+      getDB();
     }
     return null;
   }
