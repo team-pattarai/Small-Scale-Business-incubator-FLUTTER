@@ -24,17 +24,17 @@ class Homepage extends StatelessWidget {
     'Home Decor',
     'Gifts',
     'Cleaning',
-    'Design Consulting',
+    'Home Design',
     'Tech',
     'Pet Care',
-    'Wellness and Spa',
-    'collection3',
+    'Wellness, Spa',
     'Others',
     // Add more collections as needed
   ];
 
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: () async {
         final shouldExit = await showDialog<bool>(
@@ -60,6 +60,7 @@ class Homepage extends StatelessWidget {
         return shouldExit ?? false;
       },
       child: Scaffold(
+        backgroundColor: const Color.fromRGBO(181, 243, 243, 1),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -104,10 +105,15 @@ class Homepage extends StatelessWidget {
                             );
                           },
                           child: Container(
-                            padding: const EdgeInsets.all(10),
+                            padding: const EdgeInsets.all(1),
                             height: 75,
                             width: 75,
-                            color: const Color.fromRGBO(248, 246, 244, 1),
+                            child: Column(children: [Container(
+                              height: 75,
+                              width: 75,
+                              decoration: BoxDecoration(color: Colors.blueAccent,borderRadius: BorderRadius.circular(60)),
+                            ),
+                            Text(collections[index],style: const TextStyle(),softWrap: false,)],),
                           ),
                         );
                       },
@@ -143,28 +149,26 @@ class Homepage extends StatelessWidget {
                       ),
                       itemCount: texts.length,
                       itemBuilder: (context, index) {
-                        return Container(
-                          child: Column(
-                            children: [
-                              Container(
-                                height: 70,
-                                width: 70,
-                                decoration: BoxDecoration(
-                                  color: color[index % color.length],
-                                  shape: BoxShape.circle,
+                        return Column(
+                          children: [
+                            Container(
+                              height: 70,
+                              width: 70,
+                              decoration: BoxDecoration(
+                                color: color[index % color.length],
+                                shape: BoxShape.circle,
+                              ),
+                            ),
+                            Center(
+                              child: Text(
+                                texts[index],
+                                style: const TextStyle(
+                                  color: Color.fromARGB(255, 52, 185, 174),
+                                  fontSize: 10,
                                 ),
                               ),
-                              Center(
-                                child: Text(
-                                  texts[index],
-                                  style: const TextStyle(
-                                    color: Color.fromARGB(255, 52, 185, 174),
-                                    fontSize: 10,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         );
                       },
                     ),

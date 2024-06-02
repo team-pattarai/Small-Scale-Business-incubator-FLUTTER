@@ -3,7 +3,7 @@ import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/pages/landlog/login.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
     home: LandingPage(),
   ));
@@ -25,7 +25,7 @@ class LandingPage extends StatelessWidget {
                 Container(
                   width: 300,
                   height: 300,
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'Welcome to OUR APP NAME',
                       style: TextStyle(
@@ -48,7 +48,7 @@ class LandingPage extends StatelessWidget {
                 Navigator.push(
                   context,
                   PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => Landing2(),
+                    pageBuilder: (_, __, ___) => const Landing2(),
                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
                       const begin = Offset(1.0, 0.0);
                       const end = Offset.zero;
@@ -70,7 +70,7 @@ class LandingPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(23),
                   color: color[1],
                 ),
-                child: Center(
+                child: const Center(
                   child: Text(
                     "Next",
                     style: TextStyle(
@@ -104,7 +104,7 @@ class Landing2 extends StatelessWidget {
                 Container(
                   width: 300,
                   height: 300,
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       'Welcome to OUR APP NAME PAGE 2',
                       style: TextStyle(
@@ -127,7 +127,7 @@ class Landing2 extends StatelessWidget {
                 Navigator.push(
                   context,
                   PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => loginPage(),
+                    pageBuilder: (_, __, ___) => const loginPage(),
                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
                       const begin = Offset(1.0, 0.0);
                       const end = Offset.zero;
@@ -149,7 +149,7 @@ class Landing2 extends StatelessWidget {
                   borderRadius: BorderRadius.circular(23),
                   color: color[1],
                 ),
-                child: Center(
+                child: const Center(
                   child: Text(
                     "Next",
                     style: TextStyle(

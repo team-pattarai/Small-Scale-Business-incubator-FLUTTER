@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter_application_1/pages/business.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_application_1/db/connect.dart';
 
@@ -9,7 +11,7 @@ Future<List<List<String>>> getCompanyList(int index, String collectionName) asyn
   var db = await DB.getDB();
 
   if (db != null) {
-    var collection = db.collection("Startup");
+    var collection = db.collection("StartUp");
     List<List<String>> categoryValues = [];
     
     final documents = await collection.find().toList();
@@ -19,7 +21,7 @@ Future<List<List<String>>> getCompanyList(int index, String collectionName) asyn
         String Name = doc['Name'];
         String Address = doc['Address'];
         String Rating = doc['Rating'].toString();
-        String Special = doc['Special'];
+        String Special = doc['Special'].toString();
         
         CompDet.add(Name);
         CompDet.add(Address);
@@ -83,11 +85,29 @@ class _CategoryBasedListState extends State<CategoryBasedList> {
                 int starCount = 0;
                 try {
                   starCount = int.parse(data[index][2]);
+                // ignore: empty_catches
                 } catch (e) {
-                  print('Error parsing star count: $e');
                 }
 
-                return Container(
+                return InkWell(onTap: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => Business(data:data,index:index),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      const begin = Offset(1.0, 0.0);
+                      const end = Offset.zero;
+                      const curve = Curves.easeInOut;
+                      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                      var offsetAnimation = animation.drive(tween);
+                      return SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      );
+                    },
+                  ),
+                );
+              },child:  Container(
                   width: screenWidth,
                   height: 160, // Increase the height to accommodate the review bar
                   margin: const EdgeInsets.all(10),
@@ -124,7 +144,7 @@ class _CategoryBasedListState extends State<CategoryBasedList> {
                                     ),
                                   ),
                                   Text(
-                                    "Speciality : "+data[index][3],
+                                    "Speciality : ${data[index][3]}",
                                     style: const TextStyle(
                                       fontSize: 15,
                                     ),
@@ -164,8 +184,8 @@ class _CategoryBasedListState extends State<CategoryBasedList> {
                       const SizedBox(height: 16), // Add some spacing
                     ],
                   ),
-                );
-
+              ));
+                
               },
             ),
     );

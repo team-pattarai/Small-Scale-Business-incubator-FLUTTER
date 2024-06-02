@@ -25,10 +25,11 @@ class _SignUpState extends State<SignUp> {
     String password = _username.text;
     String email = _email.text;
     String confpassword = _confpassword.text;
+    String mode = _selectedOption.toString();
 
-
-    if (await loginin(username, password)) {
-      _navigateToMainPage();
+    if (await Signupup( username,  password, email, mode, confpassword)==1) {
+      
+      const loginPage();
     } else {
       _warningBubble();
     }

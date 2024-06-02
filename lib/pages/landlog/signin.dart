@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/pages/landlog/configureSeller.dart';
 import 'package:flutter_application_1/pages/landlog/signup.dart';
 import 'package:flutter_application_1/pages/landlog/authentication.dart';
 
@@ -19,10 +20,14 @@ class _SignInState extends State<SignIn> {
   Future<void> _login(BuildContext context) async {
     String username = _usernameController.text;
     String password = _passwordController.text;
-
-    if (await loginin(username, password)) {
+    int loginStatus=await loginin(username, password);
+    if (loginStatus==0) {
       _navigateToMainPage();
-    } else {
+    } 
+    else if(loginStatus==2){
+      _navigateToConfigurePage();
+    }
+    else {
       _warningBubble();
     }
   }
@@ -35,7 +40,14 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
-
+  Future<dynamic> _navigateToConfigurePage() {
+    return Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ConfigurePage(),
+      ),
+    );
+  }
   ScaffoldFeatureController _warningBubble() {
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -138,24 +150,23 @@ class _SignInState extends State<SignIn> {
                 RichText(
                   text: TextSpan(
                     text: 'Don\'t have an account? ',
-                    style: TextStyle(color: Colors.black),
+                    style: const TextStyle(color: Colors.black),
                     children: [
                       TextSpan(
                         text: 'Sign Up',
-                        style: TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
+                        style: const TextStyle(color: Colors.blue, decoration: TextDecoration.underline),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            // Navigate to login page
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => SignUp()),
+                              MaterialPageRoute(builder: (context) => const SignUp()),
                             );
                           },
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 35,),
+                const SizedBox(height: 35,),
                 
                 
 
