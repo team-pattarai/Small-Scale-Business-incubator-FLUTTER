@@ -51,7 +51,7 @@ Future<bool> Signupup(String username, String password,String email,String mode,
 }
 Future<bool> Configure(String name,String addy,String category,List services,String Email,String Speciality) async {
   var db = await DB.getDB();  
-  if (db != null) {
+  if (db != null) { 
     var collection = db.collection("StartUp");
     await collection.insert({
       'Name':name,
