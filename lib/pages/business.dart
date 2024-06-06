@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/pages/landlog/authentication.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
 class Business extends StatefulWidget {
   final List<List<String>> data;
   final int index;
@@ -13,7 +12,17 @@ class Business extends StatefulWidget {
 }
 
 class _BusinessState extends State<Business> {
-  final List<List<String>> colors = [];
+  List<List<List<String>>> colors = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchColors(widget.data, widget.index).then((fetchedColors) {
+      setState(() {
+        colors = fetchedColors;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,46 +42,20 @@ class _BusinessState extends State<Business> {
           children: [
             BlueGreyContainer(data: widget.data[widget.index]),
             const SizedBox(height: 20),
-            FutureBuilder<List<List<List<String>>>>(
-              future: fetchColors(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: SpinKitFadingCube(
-                      color: Colors.blue,
-                      size: 50.0,
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else {
-                  return HorizontalSnapList(colors: snapshot.data!);
-                }
-              },
-            ),
+            if (colors.isEmpty)
+              const Center(
+                child: SpinKitFadingCube(
+                  color: Colors.blue,
+                  size: 50.0,
+                ),
+              )
+            else
+              HorizontalSnapList(colors: colors),
             const SizedBox(height: 20),
           ],
         ),
       ),
     );
-  }
-
-  Future<List<List<List<String>>>> fetchColors() async {
-    await Future.delayed(const Duration(seconds: 2)); // Simulating a 2-second delay
-    return [
-      [
-        ["50", "discount 1"],
-        ["10", "discount 2"],
-        ["30", "discount 3"],
-        ["20", "discount 4"],
-      ],
-      [
-        ['fdgdfhsfdgdfsfdfsfsd', '111', '1111', 'awuffys sudyfsdbfis  fesbd uefbaueybfwrus s uyb grsusyfug szuv ervjhrw sub rw'],
-        ['ser2', '111', '1111', 'sigeuf sdiyfbsd seifdbs sdudsd sidf sdikbsd sidgb sdxikshvd f sjhvfs'],
-        ['ser3', '111', '1111', 'dfsgsf sdh g gf fg hsa f srfg ddvy yx vxfg hvh fysg gvftehd dv4yed bg rfv e bn'],
-        ['ser4', '111', '1111', 'sdb v jv jy jhyt fjh dfutf i utf iru tuitf iu tkf uyjc ytgvbhj rextcfyvgbu redctv yb5edrtfvy'],
-      ]
-    ];
   }
 }
 
@@ -125,7 +108,7 @@ class HorizontalSnapList extends StatefulWidget {
 
 class _HorizontalSnapListState extends State<HorizontalSnapList> {
   late PageController _pageController;
-  List<int> counter = [1, 2, 3, 4];
+  List<int> counter = [0, 0, 0, 0];
 
   @override
   void initState() {
@@ -155,7 +138,7 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
+        SizedBox(
           height: 90,
           width: double.maxFinite,
           child: PageView.builder(
@@ -199,7 +182,7 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
           '-> SERVICES <-',
           style: TextStyle(fontSize: 21, fontWeight: FontWeight.w500),
         ),
-        Container(
+        SizedBox(
           height: 500, // Set a specific height
           child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
@@ -216,9 +199,9 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      Container(
+                      const SizedBox(
                         width: 80,
-                        child: const Icon(Icons.food_bank_rounded),
+                        child: Icon(Icons.food_bank_rounded),
                       ),
                       Flexible(
                         child: Column(
@@ -229,7 +212,7 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
                               style: const TextStyle(fontSize: 22),
                             ),
                             Text(
-                              "Quantity : " + widget.colors[1][index][1],
+                              "Quantity : ${widget.colors[1][index][1]}",
                               style: const TextStyle(fontSize: 14),
                             ),
                             Text(
@@ -253,16 +236,16 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
                                 children: [
                                   InkWell(
                                     onTap: () => decrementCount(index),
-                                    child: Container(
+                                    child: const SizedBox(
                                       width: 30,
-                                      child: const Icon(Icons.exposure_minus_1_rounded),
+                                      child: Icon(Icons.exposure_minus_1_rounded),
                                     ),
                                   ),
                                   Container(width: 1.5, color: Colors.black),
                                   const Spacer(),
                                   const SizedBox(width: 4),
                                   Center(
-                                    child: Container(
+                                    child: SizedBox(
                                       width: 20,
                                       child: Text(
                                         counter[index].toString(),
@@ -274,9 +257,9 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
                                   Container(width: 1.5, color: Colors.black),
                                   InkWell(
                                     onTap: () => incrementCount(index),
-                                    child: Container(
+                                    child: const SizedBox(
                                       width: 30,
-                                      child: const Icon(Icons.plus_one_rounded),
+                                      child: Icon(Icons.plus_one_rounded),
                                     ),
                                   ),
                                 ],

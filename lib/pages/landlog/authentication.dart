@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_application_1/db/connect.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
@@ -69,4 +68,36 @@ Future<bool> Configure(String name,String addy,String category,List services,Str
 
   }
   return false;
+}
+Future<List<List<List<String>>>> fetchColors(List<List<String>> data, int index) async {
+  var db = await DB.getDB();
+  List<List<List<String>>> returnService = [];
+
+  if (db != null) {
+    var collection = db.collection("StartUp");
+    final results = await collection.find(where.eq("Name", data[index][0])).toList();
+    List servicesAll = results[0]["Services"];
+    List<List<String>> discounts = [];
+    List<List<String>> services = [];
+
+    for (int i = 0; i < servicesAll.length; i++) {
+      List<String> discount = [
+        servicesAll[i][4].toString(),
+        servicesAll[i][0].toString()
+      ];
+      discounts.add(discount);
+
+      List<String> tempList = [
+        servicesAll[i][0].toString(),
+        servicesAll[i][1].toString(),
+        servicesAll[i][2].toString(),
+        servicesAll[i][3].toString()
+      ];
+      services.add(tempList);
+    }
+    returnService.add(discounts);
+    returnService.add(services);
+  }
+
+  return returnService;
 }
