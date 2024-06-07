@@ -27,10 +27,14 @@ String password_gen(String passkey){
   return passkey;
 }
 Future<bool> Signupup(String username, String password,String email,String mode,String confpassword) async {
+  print("in");
   var db = await DB.getDB();  
   if (db != null) {
+    print("signup");
     List<Map<String, dynamic>> users = await findByName(email,db);
-    if (users ==[]){
+    print(users);
+    if (1==1){
+      print(users);
        if(password==confpassword) {
       var collection = db.collection("UserManagerment");
     await collection.insert({
@@ -39,6 +43,7 @@ Future<bool> Signupup(String username, String password,String email,String mode,
       'mode' : mode,
       'init': 'false'
     });
+    print("done");
     return true;
     }
     }
