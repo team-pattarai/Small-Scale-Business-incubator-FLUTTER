@@ -379,7 +379,7 @@ Widget _addService(BuildContext context) {
           maxSpeed: 1.5,
           maxSize: 30,
           minSpeed: 0.5,
-          randomItemsColors: [Color.fromARGB(255, 28, 88, 85), Color.fromARGB(255, 37, 64, 99)],
+          randomItemsColors: const [Color.fromARGB(255, 28, 88, 85), Color.fromARGB(255, 37, 64, 99)],
           randomItemsBehaviours: [
             ItemBehaviour(shape: ShapeType.Icon, icon: Icons.send_rounded),
           ],
@@ -388,12 +388,12 @@ Widget _addService(BuildContext context) {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.send_and_archive_rounded,
                 size: 200,
                 color: Color.fromARGB(255, 79, 99, 109),
               ),
-              Text(
+              const Text(
                 'Order Sent To Seller.!!',
                 style: TextStyle(
                   fontSize: 26,
@@ -405,7 +405,7 @@ Widget _addService(BuildContext context) {
                 onTap: () => Navigator.push(
                   context,
                   PageRouteBuilder(
-                    pageBuilder: (_, __, ___) => MainScreenBody(),
+                    pageBuilder: (_, __, ___) => const MainScreenBody(),
                     transitionsBuilder: (context, animation, secondaryAnimation, child) {
                       const begin = Offset(1.0, 0.0);
                       const end = Offset.zero;
@@ -430,7 +430,7 @@ Widget _addService(BuildContext context) {
                   children: [
                     SizedBox(width: height*.015,),
                     Center(child: Icon(Icons.home_rounded,size: height*.045,)),
-                    Spacer(),
+                    const Spacer(),
                     Center(child: Text("H O M E",style: TextStyle(fontSize: height*.032,fontWeight:FontWeight.bold ),)),
                     SizedBox(width: height*.015,)
                   ],

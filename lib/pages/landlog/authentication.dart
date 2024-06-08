@@ -25,34 +25,48 @@ Future<int> loginin(String username, String password) async {
 }
 String password_gen(String passkey){
   return passkey;
-}
-Future<bool> Signupup(String username, String password,String email,String mode,String confpassword) async {
-  print("in");
-  var db = await DB.getDB();  
-  if (db != null) {
-    print("signup");
-    List<Map<String, dynamic>> users = await findByName(email,db);
-    print(users);
-    if (1==1){
-      print(users);
-       if(password==confpassword) {
-      var collection = db.collection("UserManagerment");
-    await collection.insert({
-      'user': email,
-      'passkey': password_gen(password),
-      'mode' : mode,
-      'init': 'false'
-    });
-    print("done");
-    return true;
-    }
-    }
-    else {
+}Future<bool> Signupup(String username, String password, String email, String mode, String confPassword) async {
+  print("Starting signup process");
+  
+  try {
+    var db = await DB.getDB();
+    if (db == null) {
+      print("Failed to get database connection");
       return false;
     }
+    
+    print("Connected to database");
+    
+    List<Map<String, dynamic>> users = await findByName(email, db);
+    print("Users with given email: $users");
+    
+    if (users.isEmpty) {
+      if (password == confPassword) {
+        print("Passwords match, proceeding with signup");
+        
+        var collection = db.collection("UserManagerment");
+        await collection.insert({
+          'user': email,
+          'passkey': password_gen(password),
+          'mode': mode,
+          'init': 'false'
+        });
+        
+        print("Signup successful");
+        return true;
+      } else {
+        print("Passwords do not match");
+      }
+    } else {
+      print("User with this email already exists");
+    }
+  } catch (e) {
+    print("An error occurred during signup: $e");
   }
+  
   return false;
 }
+
 Future<bool> Configure(String name,String addy,String category,List services,String Email,String Speciality) async {
   var db = await DB.getDB();  
   if (db != null) { 
