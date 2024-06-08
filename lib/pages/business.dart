@@ -10,7 +10,7 @@ class Business extends StatefulWidget {
   final List<List<String>> data;
   final int index;
 
-  const Business({super.key, required this.data, required this.index});
+  const Business({Key? key, required this.data, required this.index}) : super(key: key);
 
   @override
   State<Business> createState() => _BusinessState();
@@ -59,7 +59,14 @@ class _BusinessState extends State<Business> {
                 ),
               )
             else
-              HorizontalSnapList(colors: colors, counter: counter, incrementCount: incrementCount, decrementCount: decrementCount),
+              HorizontalSnapList(
+                colors: colors,
+                counter: counter,
+                incrementCount: incrementCount,
+                decrementCount: decrementCount,
+                data: widget.data, // Pass the data list
+                index: widget.index, // Pass the index
+              ),
             const SizedBox(height: 20),
           ],
         ),
@@ -123,13 +130,18 @@ class HorizontalSnapList extends StatefulWidget {
   final List<int> counter;
   final Function(int) incrementCount;
   final Function(int) decrementCount;
+  final List<List<String>> data; // Specify the correct type
+  final int index; // Add the index parameter
 
-  const HorizontalSnapList({super.key, 
+  const HorizontalSnapList({
+    Key? key,
     required this.colors,
     required this.counter,
     required this.incrementCount,
     required this.decrementCount,
-  });
+    required this.data,
+    required this.index,
+  }) : super(key: key);
 
   @override
   _HorizontalSnapListState createState() => _HorizontalSnapListState();
@@ -327,13 +339,19 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: InkWell(
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async {
+                      if(await addOrder(widget.counter, widget.colors[1], widget.data[widget.index][0])){
+                        Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => _addService(context),
                         ),
                       );
+                      }
+                      else{
+                        _warningBubble();
+                      }
+                      
                     },
                     child: const Row(
                       children: [
@@ -357,6 +375,39 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
           ),
         ),
       ],
+    );
+  }
+    ScaffoldFeatureController _warningBubble() {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        content: SizedBox(
+          height: 200,
+          child: Center(
+            child: Container(
+              width: 200,
+              height: 50,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 199, 200, 227),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Center(
+                child: Text(
+                  'Order Failed',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Capriola',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        duration: const Duration(seconds: 2), // Adjust the duration as needed
+      ),
     );
   }
 }

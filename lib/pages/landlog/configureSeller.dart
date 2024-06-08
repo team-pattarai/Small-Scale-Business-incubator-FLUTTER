@@ -229,7 +229,7 @@ class _ConfigurePageState extends State<ConfigurePage> {
                     ),
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: services.length * 125.0,
                   child: ListView.builder(
                     physics: const AlwaysScrollableScrollPhysics(),
@@ -246,9 +246,9 @@ class _ConfigurePageState extends State<ConfigurePage> {
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             children: [
-                              Container(
+                              const SizedBox(
                                 width: 80,
-                                child: const Icon(Icons.food_bank_rounded),
+                                child: Icon(Icons.food_bank_rounded),
                               ),
                               Flexible(
                                 child: Column(
@@ -259,15 +259,15 @@ class _ConfigurePageState extends State<ConfigurePage> {
                                       style: const TextStyle(fontSize: 22),
                                     ),
                                     Text(
-                                      "Quantity : " + services[index][1],
+                                      "Quantity : ${services[index][1]}",
                                       style: const TextStyle(fontSize: 14),
                                     ),
                                     Text(
-                                      "Price : " + services[index][2],
+                                      "Price : ${services[index][2]}",
                                       style: const TextStyle(fontSize: 16),
                                     ),
                                     Text(
-                                      "Description : " + services[index][3],
+                                      "Description : ${services[index][3]}",
                                       style: const TextStyle(fontSize: 16),
                                       softWrap: true,
                                       overflow: TextOverflow.visible,
@@ -312,7 +312,7 @@ class _ConfigurePageState extends State<ConfigurePage> {
 class AddServiceScreen extends StatefulWidget {
   final Function(List<String>) onAdd;
 
-  const AddServiceScreen({required this.onAdd, Key? key}) : super(key: key);
+  const AddServiceScreen({required this.onAdd, super.key});
 
   @override
   _AddService createState() => _AddService();

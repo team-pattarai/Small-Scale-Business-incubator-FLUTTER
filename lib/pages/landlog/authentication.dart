@@ -119,3 +119,48 @@ Future<List<List<List<String>>>> fetchColors(List<List<String>> data, int index)
 
   return returnService;
 }
+Future<bool> addOrder(List counter,List services,String companyName) async {
+   try {
+    var db = await DB.getDB();
+    if (db == null) {
+
+      return false;
+    }
+    List<List<dynamic>> orders =[];
+    var collection = db.collection("Orders");
+    for(int i=0;i<counter.length;i++){
+      List tempList=[];
+      if(counter[i]!=0){
+        tempList.add(services[i][0]);
+        tempList.add(counter[i]);
+        orders.add(tempList); 
+      }
+    }
+    await collection.insert({
+      "to":companyName,
+      "from":"userr",
+      "orders":orders,
+      "status":"ongoing"
+    });
+    return true;
+   }
+   catch(e){
+    return false;
+   }
+}
+
+Future<List<Map<String, dynamic>>> fetchOrders() async {
+  var db = await DB.getDB();
+  List<Map<String, dynamic>> ordersList = [];
+
+  if (db != null) {
+    var collection = db.collection("Orders");
+    final results = await collection.find().toList();
+
+    for (var order in results) {
+      ordersList.add(order);
+    }
+  }
+
+  return ordersList;
+}
