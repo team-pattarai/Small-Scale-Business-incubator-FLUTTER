@@ -18,14 +18,14 @@ class LandingPage extends StatelessWidget {
       backgroundColor: color[2],
       body: Stack(
         children: [
-          Center(
+          const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                SizedBox(
                   width: 300,
                   height: 300,
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       'Welcome to OUR APP NAME',
                       style: TextStyle(
@@ -97,14 +97,14 @@ class Landing2 extends StatelessWidget {
       backgroundColor: color[2],
       body: Stack(
         children: [
-          Center(
+          const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
+                SizedBox(
                   width: 300,
                   height: 300,
-                  child: const Center(
+                  child: Center(
                     child: Text(
                       'Welcome to OUR APP NAME PAGE 2',
                       style: TextStyle(

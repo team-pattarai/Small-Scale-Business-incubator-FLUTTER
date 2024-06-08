@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/pages/business.dart';
@@ -31,7 +33,6 @@ Future<List<List<String>>> getCompanyList(int index, String collectionName) asyn
         categoryValues.add(CompDet);
       }
     }
-    print(categoryValues);
     return categoryValues;
   }
   return [];
@@ -40,7 +41,7 @@ Future<List<List<String>>> getCompanyList(int index, String collectionName) asyn
 class CategoryBasedList extends StatefulWidget {
   final String collectionName;
 
-  const CategoryBasedList({required this.collectionName});
+  const CategoryBasedList({super.key, required this.collectionName});
 
   @override
   _CategoryBasedListState createState() => _CategoryBasedListState();

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
 
 class Orders extends StatefulWidget {
+  const Orders({super.key});
+
   @override
   _OrdersState createState() => _OrdersState();
 }
@@ -48,7 +50,7 @@ class _OrdersState extends State<Orders> {
   itemBuilder: (BuildContext context, int index) {
     return Container(
       height: 100,
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white54,

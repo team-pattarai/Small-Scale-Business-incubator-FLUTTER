@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/main.dart';
-import 'package:flutter_application_1/pages/home.dart';
 import 'package:flutter_application_1/pages/landlog/authentication.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vitality/vitality.dart';
@@ -12,7 +10,7 @@ class Business extends StatefulWidget {
   final List<List<String>> data;
   final int index;
 
-  const Business({required this.data, required this.index});
+  const Business({super.key, required this.data, required this.index});
 
   @override
   State<Business> createState() => _BusinessState();
@@ -85,7 +83,7 @@ class _BusinessState extends State<Business> {
 class BlueGreyContainer extends StatelessWidget {
   final List<String> data;
 
-  const BlueGreyContainer({required this.data});
+  const BlueGreyContainer({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +124,7 @@ class HorizontalSnapList extends StatefulWidget {
   final Function(int) incrementCount;
   final Function(int) decrementCount;
 
-  HorizontalSnapList({
+  const HorizontalSnapList({super.key, 
     required this.colors,
     required this.counter,
     required this.incrementCount,

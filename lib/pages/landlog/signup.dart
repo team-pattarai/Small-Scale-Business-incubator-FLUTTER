@@ -40,14 +40,6 @@ class _SignUpState extends State<SignUp> {
     }
   }
 
-  Future<dynamic> _navigateToMainPage() {
-    return Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const MainScreenBody(),
-      ),
-    );
-  }
 
   ScaffoldFeatureController _warningBubble() {
     return ScaffoldMessenger.of(context).showSnackBar(

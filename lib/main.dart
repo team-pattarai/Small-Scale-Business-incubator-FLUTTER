@@ -23,7 +23,7 @@ class Landing extends StatelessWidget {
   }
 }
 class MainScreenBody extends StatefulWidget {
-  const MainScreenBody({Key? key}) : super(key: key);
+  const MainScreenBody({super.key});
 
   @override
   State<MainScreenBody> createState() => _MainScreenBodyState();
