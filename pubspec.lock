@@ -97,6 +97,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.3"
+  equatable:
+    dependency: transitive
+    description:
+      name: equatable
+      sha256: c2b87cb7756efdf69892005af546c56c0b5037f54d2a88269b4f347a505e3ca2
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.5"
   fake_async:
     dependency: transitive
     description:
@@ -424,6 +432,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  vitality:
+    dependency: "direct main"
+    description:
+      name: vitality
+      sha256: "55415d333c92a7739358a2991f8b2058d8963569126a664446415288e66b4680"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   vm_service:
     dependency: transitive
     description:

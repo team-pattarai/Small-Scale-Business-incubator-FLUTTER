@@ -1,22 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:flutter_application_1/pages/landlog/authentication.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:vitality/vitality.dart';
+
+double height = 0;
 
 class Business extends StatefulWidget {
   final List<List<String>> data;
   final int index;
 
-  const Business({required this.data, required this.index});
+  const Business({Key? key, required this.data, required this.index}) : super(key: key);
 
   @override
   State<Business> createState() => _BusinessState();
 }
 
 class _BusinessState extends State<Business> {
-  final List<List<String>> colors = [];
+  List<List<List<String>>> colors = [];
+  List<int> counter = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchColors(widget.data, widget.index).then((fetchedColors) {
+      setState(() {
+        colors = fetchedColors;
+        // Generate counter list dynamically
+        counter = List<int>.filled(fetchedColors[1].length, 0);
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
@@ -33,23 +51,22 @@ class _BusinessState extends State<Business> {
           children: [
             BlueGreyContainer(data: widget.data[widget.index]),
             const SizedBox(height: 20),
-            FutureBuilder<List<List<List<String>>>>(
-              future: fetchColors(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: SpinKitFadingCube(
-                      color: Colors.blue,
-                      size: 50.0,
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else {
-                  return HorizontalSnapList(colors: snapshot.data!);
-                }
-              },
-            ),
+            if (colors.isEmpty)
+              const Center(
+                child: SpinKitFadingCube(
+                  color: Colors.blue,
+                  size: 50.0,
+                ),
+              )
+            else
+              HorizontalSnapList(
+                colors: colors,
+                counter: counter,
+                incrementCount: incrementCount,
+                decrementCount: decrementCount,
+                data: widget.data, // Pass the data list
+                index: widget.index, // Pass the index
+              ),
             const SizedBox(height: 20),
           ],
         ),
@@ -57,29 +74,23 @@ class _BusinessState extends State<Business> {
     );
   }
 
-  Future<List<List<List<String>>>> fetchColors() async {
-    await Future.delayed(const Duration(seconds: 2)); // Simulating a 2-second delay
-    return [
-      [
-        ["50", "discount 1"],
-        ["10", "discount 2"],
-        ["30", "discount 3"],
-        ["20", "discount 4"],
-      ],
-      [
-        ['fdgdfhsfdgdfsfdfsfsd', '111', '1111', 'awuffys sudyfsdbfis  fesbd uefbaueybfwrus s uyb grsusyfug szuv ervjhrw sub rw'],
-        ['ser2', '111', '1111', 'sigeuf sdiyfbsd seifdbs sdudsd sidf sdikbsd sidgb sdxikshvd f sjhvfs'],
-        ['ser3', '111', '1111', 'dfsgsf sdh g gf fg hsa f srfg ddvy yx vxfg hvh fysg gvftehd dv4yed bg rfv e bn'],
-        ['ser4', '111', '1111', 'sdb v jv jy jhyt fjh dfutf i utf iru tuitf iu tkf uyjc ytgvbhj rextcfyvgbu redctv yb5edrtfvy'],
-      ]
-    ];
+  void incrementCount(int index) {
+    setState(() {
+      counter[index]++;
+    });
+  }
+
+  void decrementCount(int index) {
+    setState(() {
+      if (counter[index] > 0) counter[index]--;
+    });
   }
 }
 
 class BlueGreyContainer extends StatelessWidget {
   final List<String> data;
 
-  const BlueGreyContainer({required this.data});
+  const BlueGreyContainer({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -116,8 +127,21 @@ class BlueGreyContainer extends StatelessWidget {
 
 class HorizontalSnapList extends StatefulWidget {
   final List<List<List<String>>> colors;
+  final List<int> counter;
+  final Function(int) incrementCount;
+  final Function(int) decrementCount;
+  final List<List<String>> data; // Specify the correct type
+  final int index; // Add the index parameter
 
-  HorizontalSnapList({required this.colors});
+  const HorizontalSnapList({
+    Key? key,
+    required this.colors,
+    required this.counter,
+    required this.incrementCount,
+    required this.decrementCount,
+    required this.data,
+    required this.index,
+  }) : super(key: key);
 
   @override
   _HorizontalSnapListState createState() => _HorizontalSnapListState();
@@ -125,7 +149,6 @@ class HorizontalSnapList extends StatefulWidget {
 
 class _HorizontalSnapListState extends State<HorizontalSnapList> {
   late PageController _pageController;
-  List<int> counter = [1, 2, 3, 4];
 
   @override
   void initState() {
@@ -139,24 +162,12 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
     super.dispose();
   }
 
-  void incrementCount(int index) {
-    setState(() {
-      counter[index]++;
-    });
-  }
-
-  void decrementCount(int index) {
-    setState(() {
-      if (counter[index] > 0) counter[index]--;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          height: 90,
+        SizedBox(
+          height: height * .08,
           width: double.maxFinite,
           child: PageView.builder(
             controller: _pageController,
@@ -165,7 +176,7 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
             itemCount: widget.colors[0].length,
             itemBuilder: (BuildContext context, int index) {
               return Container(
-                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(87, 96, 125, 139),
                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -195,12 +206,12 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
             },
           ),
         ),
-        const Text(
+        Text(
           '-> SERVICES <-',
-          style: TextStyle(fontSize: 21, fontWeight: FontWeight.w500),
+          style: TextStyle(fontSize: height * .025.toDouble(), fontWeight: FontWeight.w500),
         ),
-        Container(
-          height: 500, // Set a specific height
+        SizedBox(
+          height: height * .531,
           child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
             itemCount: widget.colors[1].length,
@@ -216,9 +227,9 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      Container(
+                      const SizedBox(
                         width: 80,
-                        child: const Icon(Icons.food_bank_rounded),
+                        child: Icon(Icons.food_bank_rounded),
                       ),
                       Flexible(
                         child: Column(
@@ -229,7 +240,7 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
                               style: const TextStyle(fontSize: 22),
                             ),
                             Text(
-                              "Quantity : " + widget.colors[1][index][1],
+                              "Quantity : ${widget.colors[1][index][1]}",
                               style: const TextStyle(fontSize: 14),
                             ),
                             Text(
@@ -252,20 +263,20 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
                               child: Row(
                                 children: [
                                   InkWell(
-                                    onTap: () => decrementCount(index),
-                                    child: Container(
+                                    onTap: () => widget.decrementCount(index),
+                                    child: const SizedBox(
                                       width: 30,
-                                      child: const Icon(Icons.exposure_minus_1_rounded),
+                                      child: Icon(Icons.exposure_minus_1_rounded),
                                     ),
                                   ),
                                   Container(width: 1.5, color: Colors.black),
                                   const Spacer(),
                                   const SizedBox(width: 4),
                                   Center(
-                                    child: Container(
+                                    child: SizedBox(
                                       width: 20,
                                       child: Text(
-                                        counter[index].toString(),
+                                        widget.counter[index].toString(),
                                         style: const TextStyle(fontSize: 20),
                                       ),
                                     ),
@@ -273,10 +284,10 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
                                   const Spacer(),
                                   Container(width: 1.5, color: Colors.black),
                                   InkWell(
-                                    onTap: () => incrementCount(index),
-                                    child: Container(
+                                    onTap: () => widget.incrementCount(index),
+                                    child: const SizedBox(
                                       width: 30,
-                                      child: const Icon(Icons.plus_one_rounded),
+                                      child: Icon(Icons.plus_one_rounded),
                                     ),
                                   ),
                                 ],
@@ -292,7 +303,194 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
             },
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Container(
+            height: 80,
+            width: double.maxFinite,
+            decoration: BoxDecoration(
+              color: Colors.blueGrey,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const SizedBox(width: 10),
+                Container(
+                  height: 40,
+                  width: 75,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                Container(
+                  height: 40,
+                  width: 115,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: InkWell(
+                    onTap: () async {
+                      if(await addOrder(widget.counter, widget.colors[1], widget.data[widget.index][0])){
+                        Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => _addService(context),
+                        ),
+                      );
+                      }
+                      else{
+                        _warningBubble();
+                      }
+                      
+                    },
+                    child: const Row(
+                      children: [
+                        SizedBox(width: 5),
+                        Center(child: Icon(Icons.shopping_cart_checkout_rounded)),
+                        Spacer(),
+                        Center(
+                          child: Text(
+                            "Checkout",
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 10),
+              ],
+            ),
+          ),
+        ),
       ],
     );
   }
+    ScaffoldFeatureController _warningBubble() {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        content: SizedBox(
+          height: 200,
+          child: Center(
+            child: Container(
+              width: 200,
+              height: 50,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 199, 200, 227),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Center(
+                child: Text(
+                  'Order Failed',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Capriola',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        duration: const Duration(seconds: 2), // Adjust the duration as needed
+      ),
+    );
+  }
+}
+
+
+
+Widget _addService(BuildContext context) {
+  return Scaffold(
+    body: Stack(
+      children: [
+        Vitality.randomly(
+          background: Colors.white,
+          maxOpacity: 0.8,
+          minOpacity: 0.3,
+          itemsCount: 80,
+          enableXMovements: false,
+          whenOutOfScreenMode: WhenOutOfScreenMode.Teleport,
+          maxSpeed: 1.5,
+          maxSize: 30,
+          minSpeed: 0.5,
+          randomItemsColors: const [Color.fromARGB(255, 28, 88, 85), Color.fromARGB(255, 37, 64, 99)],
+          randomItemsBehaviours: [
+            ItemBehaviour(shape: ShapeType.Icon, icon: Icons.send_rounded),
+          ],
+        ),
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(
+                Icons.send_and_archive_rounded,
+                size: 200,
+                color: Color.fromARGB(255, 79, 99, 109),
+              ),
+              const Text(
+                'Order Sent To Seller.!!',
+                style: TextStyle(
+                  fontSize: 26,
+                  color: Color.fromARGB(255, 55, 78, 90),
+                ),
+              ),
+              SizedBox(height: height*.031,),
+              InkWell(
+                onTap: () => Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => const MainScreenBody(),
+                    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                      const begin = Offset(1.0, 0.0);
+                      const end = Offset.zero;
+                      const curve = Curves.easeInOut;
+                      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+                      var offsetAnimation = animation.drive(tween);
+                      return SlideTransition(
+                        position: offsetAnimation,
+                        child: child,
+                      );
+                    },
+                  ),
+                ),
+                child: Container(
+                width: double.maxFinite,
+                height: 60,
+                margin: EdgeInsets.symmetric(horizontal: height*.14),
+                decoration: BoxDecoration(color: Colors.blueGrey,
+                borderRadius: BorderRadius.circular(25)),
+                child: Row(
+                  
+                  children: [
+                    SizedBox(width: height*.015,),
+                    Center(child: Icon(Icons.home_rounded,size: height*.045,)),
+                    const Spacer(),
+                    Center(child: Text("H O M E",style: TextStyle(fontSize: height*.032,fontWeight:FontWeight.bold ),)),
+                    SizedBox(width: height*.015,)
+                  ],
+                ),
+              ),
+              )
+              
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
 }

@@ -79,10 +79,10 @@ class _loginPageState extends State<loginPage> {
               },child:  const Center(child:  Text("Sign Up",style: TextStyle(fontSize: 26,fontWeight: FontWeight.w400),))),        
           ),
           const SizedBox(height: 35,),
-          Container(child: Column(
+          Column(
             children: [
               const Text("Powered By",style: TextStyle(fontSize: 16),),
-              Image.asset('assets/images/Text Black.png',height: 100,width: 175,)],),),
+              Image.asset('assets/images/Text Black.png',height: 100,width: 175,)],),
         ],
       ),),
     );

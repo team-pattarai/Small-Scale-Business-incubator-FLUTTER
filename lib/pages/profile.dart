@@ -12,9 +12,6 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final String username = 'Username';
 
-  void _handleStateChange(String data) {
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {

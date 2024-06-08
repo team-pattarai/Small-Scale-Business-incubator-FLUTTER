@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pages/subpages/category.dart';
 
 class Homepage extends StatelessWidget {
-  List<String> texts = [
+  final List<String> texts = [
     'Profile',
-    'F1',
+    'Wishlist',
     'F2',
     'F3',
   ];
 
-  List<Color> color = [
+  final List<Color> color = [
 
     const Color.fromARGB(255, 85, 236, 241),
   ];
@@ -31,6 +31,8 @@ class Homepage extends StatelessWidget {
     'Others',
     // Add more collections as needed
   ];
+
+  Homepage({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -22,27 +22,24 @@ class _SignUpState extends State<SignUp> {
 
   Future<void> _Signup(BuildContext context) async {
     String username = _email.text;
-    String password = _username.text;
+    String password = _password.text;
     String email = _email.text;
     String confpassword = _confpassword.text;
     String mode = _selectedOption.toString();
 
-    if (await Signupup( username,  password, email, mode, confpassword)==1) {
-      
-      const loginPage();
+    if (await Signupup( username,  password, email, mode, confpassword)) {
+
+      Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const loginPage(),
+      ),
+    );
     } else {
       _warningBubble();
     }
   }
 
-  Future<dynamic> _navigateToMainPage() {
-    return Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const MainScreenBody(),
-      ),
-    );
-  }
 
   ScaffoldFeatureController _warningBubble() {
     return ScaffoldMessenger.of(context).showSnackBar(
