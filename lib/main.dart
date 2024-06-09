@@ -33,7 +33,7 @@ class _MainScreenBodyState extends State<MainScreenBody> {
   int currentIndex = 0;
 
 
-  final List pages=[Homepage(),Homepage(),Orders(), const ProfilePage()];
+  final List pages=[Homepage(),Homepage(),const Orders(), const ProfilePage()];
   @override
   Widget build(BuildContext context) {
     return  Scaffold(

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_application_1/db/connect.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
@@ -164,3 +166,28 @@ Future<List<Map<String, dynamic>>> fetchOrders() async {
 
   return ordersList;
 }
+
+Future<bool> markDone(Map<String, dynamic> order) async {
+  try {
+    var db = await DB.getDB();
+    if (db == null) {
+      return false;
+    }
+
+    var collection = db.collection("Orders");
+    var result = await collection.update(
+      where.eq('_id', order['_id']),
+      modify.set('status', 'completed')
+    );
+
+    if (result['nModified'] == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    print("Error: $e");
+    return false;
+  }
+}
+

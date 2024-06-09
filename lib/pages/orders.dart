@@ -16,12 +16,49 @@ class _OrdersState extends State<Orders> {
   @override
   void initState() {
     super.initState();
-    fetchOrders().then((orders) {
-      setState(() {
-        ongoingOrders = orders.where((order) => order['status'] == 'ongoing').toList();
-        completedOrders = orders.where((order) => order['status'] == 'completed').toList();
-      });
+    fetchAndUpdateOrders();
+  }
+
+  Future<void> fetchAndUpdateOrders() async {
+    var orders = await fetchOrders();
+    setState(() {
+      ongoingOrders = orders.where((order) => order['status'] == 'ongoing').toList();
+      completedOrders = orders.where((order) => order['status'] == 'completed').toList();
     });
+  }
+
+  ScaffoldFeatureController _warningBubble() {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        content: SizedBox(
+          height: 200,
+          child: Center(
+            child: Container(
+              width: 200,
+              height: 50,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 199, 200, 227),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Center(
+                child: Text(
+                  'Mark as Done Failed',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Capriola',
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        duration: const Duration(seconds: 2), // Adjust the duration as needed
+      ),
+    );
   }
 
   @override
@@ -51,18 +88,33 @@ class _OrdersState extends State<Orders> {
           ),
           body: TabBarView(
           children: [
-            OrderListView(orders: ongoingOrders),
-            OrderListView(orders: completedOrders),
+            OrderListView(
+              orders: ongoingOrders,
+              refreshOrders: fetchAndUpdateOrders,
+              showWarning: _warningBubble,
+            ),
+            OrderListView(
+              orders: completedOrders,
+              refreshOrders: fetchAndUpdateOrders,
+              showWarning: _warningBubble,
+            ),
           ],
         ),
           ),);
-
-  }}
+  }
+}
 
 class OrderListView extends StatelessWidget {
   final List<Map<String, dynamic>> orders;
+  final Future<void> Function() refreshOrders;
+  final ScaffoldFeatureController Function() showWarning;
 
-  const OrderListView({super.key, required this.orders});
+  const OrderListView({
+    super.key,
+    required this.orders,
+    required this.refreshOrders,
+    required this.showWarning,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +122,8 @@ class OrderListView extends StatelessWidget {
       itemCount: orders.length,
       itemBuilder: (BuildContext context, int index) {
         var order = orders[index];
-        print(orders);
         return Container(
-          height: 100,
-          padding: const EdgeInsets.all(10),
+          width: double.maxFinite,
           margin: const EdgeInsets.all(10),
           decoration: BoxDecoration(
             color: Colors.white54,
@@ -82,12 +132,39 @@ class OrderListView extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: ListTile(
-                  title: Text(
-                    order['to'] ?? 'No Name',
-                    style: const TextStyle(fontSize: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListTile(
+                      title: Text(
+                        order['to'] ?? 'No Name',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      subtitle: Text('Date: ${order['date'] ?? 'No Date'}'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 16.0, bottom: 12),
+                      child: Text(
+                        'Orders: ${order['orders'][0][0] ?? 'No Orders'} x ${order['orders'][0][1]} ..etc',
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              InkWell(
+                onTap: () async {
+                  if (await markDone(order)) {
+                    await refreshOrders();
+                  } else {
+                    showWarning();
+                  }
+                },
+                child: const Padding(
+                  padding: EdgeInsets.only(right: 16),
+                  child: Icon(
+                    Icons.done_rounded,
+                    size: 35,
                   ),
-                  subtitle: Text('Date: ${order['date'] ?? 'No Date'}'),
                 ),
               ),
             ],
@@ -97,3 +174,4 @@ class OrderListView extends StatelessWidget {
     );
   }
 }
+
