@@ -83,8 +83,9 @@ class _Navbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 55),
       child: Container(
+        
         height: 70,
         decoration: BoxDecoration(
           color: const Color.fromRGBO(147, 228, 228, 1),
@@ -100,6 +101,7 @@ class _Navbar extends StatelessWidget {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 5),
         child: GNav(
+          
           gap: 8,
           duration: const Duration(milliseconds: 500),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -112,14 +114,7 @@ class _Navbar extends StatelessWidget {
               ),
               onPressed: () => onIndexChanged(0),
             ),
-            GButton(
-              icon: Icons.pie_chart,
-              text: 'Stats',
-              backgroundGradient: const LinearGradient(
-                colors: [Color.fromRGBO(181, 243, 243, 1), Color.fromRGBO(248, 246, 244, 1)],
-              ),
-              onPressed: () => onIndexChanged(1),
-            ),
+            
             GButton(
               icon: Icons.manage_history,
               text: 'Orders',

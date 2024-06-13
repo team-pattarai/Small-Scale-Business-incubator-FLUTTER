@@ -12,8 +12,27 @@ class Homepage extends StatelessWidget {
   ];
 
   final List<Color> color = [
-
     const Color.fromARGB(255, 85, 236, 241),
+  ];
+  final List quickLinkIcons = [
+    Icons.person_2_rounded,
+    Icons.favorite_rounded,
+    Icons.details_rounded,
+    Icons.contact_page_rounded
+  ];
+  final List<String> category = [
+    "assets/images/catering.jpg",
+    "assets/images/tailoring.jpg",
+    "assets/images/pottery.jpg",
+    "assets/images/handcraft.jpg",
+    "assets/images/homedecor.jpg",
+    "assets/images/stationary.jpg",
+    "assets/images/homecleaning.jpg",
+    "assets/images/interior.jpg",
+    "assets/images/technical.jpg",
+    "assets/images/petcare.jpg",
+    "assets/images/spa.jpg",
+    "assets/images/catering.jpg"
   ];
 
   final List<String> collections = [
@@ -32,7 +51,9 @@ class Homepage extends StatelessWidget {
     // Add more collections as needed
   ];
 
-  Homepage({super.key});
+  final Function(int)? updateIndex;
+
+  Homepage({super.key, this.updateIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +109,8 @@ class Homepage extends StatelessWidget {
                   ),
                   Expanded(
                     child: GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
@@ -110,12 +132,29 @@ class Homepage extends StatelessWidget {
                             padding: const EdgeInsets.all(1),
                             height: 75,
                             width: 75,
-                            child: Column(children: [Container(
-                              height: 75,
-                              width: 75,
-                              decoration: BoxDecoration(color: Colors.blueAccent,borderRadius: BorderRadius.circular(60)),
+                            child: Column(
+                              children: [
+                                Container(
+                                  height: 75,
+                                  width: 75,
+                                  decoration: BoxDecoration(
+                                      color: Colors.blueAccent,
+                                      borderRadius: BorderRadius.circular(60)),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(37.5),
+                                    child: Image.asset(
+                                      category[index],
+                                      height: 75,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  collections[index],
+                                  style: const TextStyle(),
+                                  softWrap: false,
+                                )
+                              ],
                             ),
-                            Text(collections[index],style: const TextStyle(),softWrap: false,)],),
                           ),
                         );
                       },
@@ -125,7 +164,7 @@ class Homepage extends StatelessWidget {
               ),
             ),
             Container(
-              height: 137,
+              height: 145,
               margin: const EdgeInsets.only(left: 15, right: 15),
               width: double.maxFinite,
               padding: const EdgeInsets.all(10),
@@ -144,28 +183,42 @@ class Homepage extends StatelessWidget {
                       color: Color.fromARGB(255, 62, 125, 134),
                     ),
                   ),
+                  const SizedBox(height: 8,),
                   Expanded(
                     child: GridView.builder(
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
                       ),
                       itemCount: texts.length,
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            Container(
-                              height: 70,
-                              width: 70,
-                              decoration: BoxDecoration(
-                                color: color[index % color.length],
-                                shape: BoxShape.circle,
+                            InkWell(
+                              onTap: () {
+                                
+                                  updateIndex?.call(3);
+                                
+                              },
+                              child: Container(
+                                height: 70,
+                                width: 70,
+                                decoration: BoxDecoration(
+                                  color: color[index % color.length],
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  quickLinkIcons[index],
+                                  size: 35,
+                                  color: const Color.fromARGB(255, 54, 70, 78),
+                                ),
                               ),
                             ),
                             Center(
                               child: Text(
                                 texts[index],
                                 style: const TextStyle(
-                                  color: Color.fromARGB(255, 52, 185, 174),
+                                  color: Color.fromARGB(255, 39, 85, 81),
                                   fontSize: 10,
                                 ),
                               ),
