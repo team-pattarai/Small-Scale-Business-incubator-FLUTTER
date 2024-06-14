@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/landlog/authentication.dart';
 import 'package:flutter_application_1/pages/landlog/landing.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:flutter_application_1/components/DrawerItems.dart';
 import 'package:flutter_application_1/pages/profile.dart';
@@ -44,14 +46,14 @@ class _MainScreenBodyState extends State<MainScreenBody> {
             borderRadius: BorderRadius.all(Radius.circular(25))),
         elevation: .3,
         backgroundColor: const Color.fromRGBO(181, 243, 243, 1),
-        title: const Text("Project name :)"),
+        title: const Text("Picollo Affari"),
       ),
       drawer: Drawer(
         backgroundColor: const Color.fromRGBO(196, 223, 223, 1),
         child: ListView(
           padding: EdgeInsets.zero,
           children: const [
-            DrawerHeader(child: Text("Project Name")),
+            DrawerHeader(child: Text("Picollo Affari")),
             DropDownText(
                 label: "Business", icon: Icons.workspaces_filled, buttonRack: []),
           ],
@@ -138,6 +140,11 @@ class _Navbar extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp( const Landing());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();  // Ensure Flutter bindings are initialized
+  final storage = new FlutterSecureStorage();
+  await storage.write(key: "key", value: "value");
+  String? value = await storage.read(key: "key");
+  print(value);
+  runApp(const Landing());
 }
