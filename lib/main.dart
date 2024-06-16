@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pages/landlog/authentication.dart';
 import 'package:flutter_application_1/pages/landlog/landing.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:flutter_application_1/components/DrawerItems.dart';
 import 'package:flutter_application_1/pages/profile.dart';
@@ -33,7 +35,7 @@ class _MainScreenBodyState extends State<MainScreenBody> {
   int currentIndex = 0;
 
 
-  final List pages=[Homepage(),Homepage(),Orders(), const ProfilePage()];
+  final List pages=[Homepage(),Homepage(),const Orders(), const ProfilePage()];
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -44,14 +46,14 @@ class _MainScreenBodyState extends State<MainScreenBody> {
             borderRadius: BorderRadius.all(Radius.circular(25))),
         elevation: .3,
         backgroundColor: const Color.fromRGBO(181, 243, 243, 1),
-        title: const Text("Project name :)"),
+        title: const Text("Picollo Affari"),
       ),
       drawer: Drawer(
         backgroundColor: const Color.fromRGBO(196, 223, 223, 1),
         child: ListView(
           padding: EdgeInsets.zero,
           children: const [
-            DrawerHeader(child: Text("Project Name")),
+            DrawerHeader(child: Text("Picollo Affari")),
             DropDownText(
                 label: "Business", icon: Icons.workspaces_filled, buttonRack: []),
           ],
@@ -83,8 +85,9 @@ class _Navbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 55),
       child: Container(
+        
         height: 70,
         decoration: BoxDecoration(
           color: const Color.fromRGBO(147, 228, 228, 1),
@@ -100,6 +103,7 @@ class _Navbar extends StatelessWidget {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 5),
         child: GNav(
+          
           gap: 8,
           duration: const Duration(milliseconds: 500),
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
@@ -112,14 +116,7 @@ class _Navbar extends StatelessWidget {
               ),
               onPressed: () => onIndexChanged(0),
             ),
-            GButton(
-              icon: Icons.pie_chart,
-              text: 'Stats',
-              backgroundGradient: const LinearGradient(
-                colors: [Color.fromRGBO(181, 243, 243, 1), Color.fromRGBO(248, 246, 244, 1)],
-              ),
-              onPressed: () => onIndexChanged(1),
-            ),
+            
             GButton(
               icon: Icons.manage_history,
               text: 'Orders',
@@ -143,6 +140,11 @@ class _Navbar extends StatelessWidget {
   }
 }
 
-void main() {
-  runApp( const Landing());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();  // Ensure Flutter bindings are initialized
+  final storage = new FlutterSecureStorage();
+  await storage.write(key: "key", value: "value");
+  String? value = await storage.read(key: "key");
+  print(value);
+  runApp(const Landing());
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_application_1/db/connect.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
@@ -14,6 +15,7 @@ Future<int> loginin(String username, String password) async {
     if (users.isNotEmpty) {
       var user = users.first;
       if (user['passkey'] == password) {
+        addsession(username);
         if (user['init']== 'false' && user['mode']=='Seller'){
           return 2;
         }
@@ -163,4 +165,31 @@ Future<List<Map<String, dynamic>>> fetchOrders() async {
   }
 
   return ordersList;
+}
+
+Future<bool> markDone(Map<String, dynamic> order) async {
+  try {
+    var db = await DB.getDB();
+    if (db == null) {
+      return false;
+    }
+
+    var collection = db.collection("Orders");
+    var result = await collection.update(
+      where.eq('_id', order['_id']),
+      modify.set('status', 'completed')
+    );
+
+    if (result['nModified'] == 1) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    return false;
+  }
+}
+
+void addsession(String username,){
+
 }

@@ -39,6 +39,8 @@ dependencies:
   mongo_dart: ^0.10.2
   flutter_spinkit: ^5.2.1
   vitality: ^3.0.0
+  flutter_secure_storage: ^4.2.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
