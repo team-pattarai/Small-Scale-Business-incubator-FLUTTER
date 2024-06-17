@@ -143,8 +143,16 @@ class _Navbar extends StatelessWidget {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();  // Ensure Flutter bindings are initialized
   final storage = new FlutterSecureStorage();
-  await storage.write(key: "key", value: "value");
-  String? value = await storage.read(key: "key");
-  print(value);
+  //await storage.write(key: "key", value: "value");
+  String? value = await storage.read(key: "Status");
+  if(value=='cached'){
+    runApp(const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MainScreenBody(),
+    ));
+
+  }
+  else{
   runApp(const Landing());
+  }
 }

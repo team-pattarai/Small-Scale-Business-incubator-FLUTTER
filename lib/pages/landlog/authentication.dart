@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter_application_1/db/connect.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 Future<List<Map<String, dynamic>>> findByName(String name, Db db) async {
@@ -15,7 +17,7 @@ Future<int> loginin(String username, String password) async {
     if (users.isNotEmpty) {
       var user = users.first;
       if (user['passkey'] == password) {
-        addsession(username);
+        addsession(username,db,user['mode']);
         if (user['init']== 'false' && user['mode']=='Seller'){
           return 2;
         }
@@ -78,7 +80,8 @@ Future<bool> Configure(String name,String addy,String category,List services,Str
       'Category':category,
       'Services':services,
       'Rating':"0",
-      'Special':Speciality
+      'Special':Speciality,
+      'Email':Email
     });
     var collection1 = db.collection("UserManagerment");
     var selector = where.eq('user', Email); 
@@ -189,7 +192,19 @@ Future<bool> markDone(Map<String, dynamic> order) async {
     return false;
   }
 }
-
-void addsession(String username,){
-
+Future<List<Map<String, dynamic>>> findByStartup(String email, Db db) async {
+  var collection = db.collection("StartUp");
+  final results = await collection.find(where.eq('Email', email.toString())).toList();
+  return results;
 }
+Future<void> addsession(String username, Db db, user,) async {
+  final storage = new FlutterSecureStorage();
+  var details= await findByStartup(username, db);
+  await storage.write(key: "user", value: username);
+  if(user=='Seller'){
+    await storage.write(key: 'Addy',value: details[0]['Address']);
+    final encodedServices = jsonEncode(details[0]['Services']);
+    await storage.write(key: 'Services', value: encodedServices);
+  }
+  await storage.write(key: "Status", value: "cached");
+  }
