@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter_application_1/db/connect.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mongo_dart/mongo_dart.dart';
@@ -121,7 +120,6 @@ Future<List<List<List<String>>>> fetchColors(List<List<String>> data, int index)
     returnService.add(discounts);
     returnService.add(services);
   }
-
   return returnService;
 }
 Future<bool> addOrder(List counter,List services,String companyName) async {
@@ -198,13 +196,13 @@ Future<List<Map<String, dynamic>>> findByStartup(String email, Db db) async {
   return results;
 }
 Future<void> addsession(String username, Db db, user,) async {
-  final storage = new FlutterSecureStorage();
+  const storage = FlutterSecureStorage();
   var details= await findByStartup(username, db);
   await storage.write(key: "user", value: username);
   if(user=='Seller'){
     await storage.write(key: 'Addy',value: details[0]['Address']);
-    final encodedServices = jsonEncode(details[0]['Services']);
-    await storage.write(key: 'Services', value: encodedServices);
+    await storage.write(key: "Name", value: details[0]['Name']);
+    await storage.write(key: 'mode', value: "Seller");
   }
   await storage.write(key: "Status", value: "cached");
   }
