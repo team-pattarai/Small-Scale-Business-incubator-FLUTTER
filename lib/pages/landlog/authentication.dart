@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter_application_1/db/connect.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:crypto/crypto.dart'; 
+import 'dart:convert';
 
 Future<List<Map<String, dynamic>>> findByName(String name, Db db) async {
   var collection = db.collection("UserManagerment");
@@ -10,7 +12,7 @@ Future<List<Map<String, dynamic>>> findByName(String name, Db db) async {
 }
 Future<int> loginin(String username, String password) async {
   var db = await DB.getDB();  
-
+  password=password_gen(password);
   if (db != null) {
     List<Map<String, dynamic>> users = await findByName(username, db);
     if (users.isNotEmpty) {
@@ -27,25 +29,23 @@ Future<int> loginin(String username, String password) async {
   return 1;
 }
 String password_gen(String passkey){
-  return passkey;
+  var key = utf8.encode(passkey); 
+  var bytes = utf8.encode("PPPPIIIICCCCOOOOLLLLLLLLOOOOaaaaffffffffaaaarrrriiii"); 
+  var hmacSha256 = Hmac(sha256, key); // HMAC-SHA256 
+  var digest = hmacSha256.convert(bytes); 
+  print("HMAC digest as hex string: $digest"); 
+
+  return digest.toString();
 }Future<bool> Signupup(String username, String password, String email, String mode, String confPassword) async {
   
   try {
     var db = await DB.getDB();
     if (db == null) {
-
       return false;
     }
-    
-
-    
     List<Map<String, dynamic>> users = await findByName(email, db);
-
-    
     if (users.isEmpty) {
       if (password == confPassword) {
-
-        
         var collection = db.collection("UserManagerment");
         await collection.insert({
           'user': email,
@@ -53,11 +53,8 @@ String password_gen(String passkey){
           'mode': mode,
           'init': 'false'
         });
-        
-
         return true;
       } else {
-
       }
     } else {
 

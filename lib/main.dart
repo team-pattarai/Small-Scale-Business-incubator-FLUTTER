@@ -144,7 +144,7 @@ Future<void> main() async {
   const storage = FlutterSecureStorage();
   //await storage.write(key: "key", value: "value");
   String? value = await storage.read(key: "Status");
-  if(value=='cached'){
+  if(value=='cachedd'){
     runApp(const MaterialApp(
       debugShowCheckedModeBanner: false,
       home: MainScreenBody(),
