@@ -141,7 +141,7 @@ class _SignInState extends State<SignIn> {
                     onTap: () => _login(context),
                     child: const Center(
                       child: Text(
-                        "Submit",
+                        "Login",
                         style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
                       ),
                     ),

@@ -24,7 +24,7 @@ class _loginPageState extends State<loginPage> {
           const SizedBox(height: 15,),
           const Text("Hello",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 35,color: Color.fromARGB(255, 90, 90, 90)),),
           const SizedBox(height: 3,),
-          const Text("Description os the app",style: TextStyle(fontSize: 17),),
+          const Text("Description of the app",style: TextStyle(fontSize: 17),),
           const SizedBox(height: 14,),
           Container(
             height: 60,

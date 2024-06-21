@@ -31,7 +31,7 @@ class _BusinessState extends State<Business> {
       });
     });
   }
-
+  
   @override
   Widget build(BuildContext context) {
     height = MediaQuery.of(context).size.height;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pages/landlog/authentication.dart';
 import 'package:flutter_application_1/pages/landlog/landing.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -142,9 +141,17 @@ class _Navbar extends StatelessWidget {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();  // Ensure Flutter bindings are initialized
-  final storage = new FlutterSecureStorage();
-  await storage.write(key: "key", value: "value");
-  String? value = await storage.read(key: "key");
-  print(value);
+  const storage = FlutterSecureStorage();
+  //await storage.write(key: "key", value: "value");
+  String? value = await storage.read(key: "Status");
+  if(value=='cachedd'){
+    runApp(const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: MainScreenBody(),
+    ));
+
+  }
+  else{
   runApp(const Landing());
+  }
 }
