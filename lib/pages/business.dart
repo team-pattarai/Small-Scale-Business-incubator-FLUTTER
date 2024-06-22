@@ -10,7 +10,7 @@ class Business extends StatefulWidget {
   final List<List<String>> data;
   final int index;
 
-  const Business({Key? key, required this.data, required this.index}) : super(key: key);
+  const Business({super.key, required this.data, required this.index});
 
   @override
   State<Business> createState() => _BusinessState();
@@ -134,14 +134,14 @@ class HorizontalSnapList extends StatefulWidget {
   final int index; // Add the index parameter
 
   const HorizontalSnapList({
-    Key? key,
+    super.key,
     required this.colors,
     required this.counter,
     required this.incrementCount,
     required this.decrementCount,
     required this.data,
     required this.index,
-  }) : super(key: key);
+  });
 
   @override
   _HorizontalSnapListState createState() => _HorizontalSnapListState();

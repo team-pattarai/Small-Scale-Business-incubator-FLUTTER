@@ -86,18 +86,21 @@ class _ProfilePageState extends State<ProfilePage> {
             color: const Color.fromARGB(80, 96, 125, 139),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: HorizontalSnapList()
+          child: HorizontalSnapList(Name)
         ),
       ],
     );
   }
 }
 class HorizontalSnapList extends StatefulWidget {
+  const HorizontalSnapList(String name, {super.key});
+  
   @override
   _HorizontalSnapListState createState() => _HorizontalSnapListState();
 }
 
 class _HorizontalSnapListState extends State<HorizontalSnapList> {
+  
   late PageController _pageController;
   bool _isLoading = true;
   List<List<List<String>>> _colors = [];
@@ -112,9 +115,12 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
   Future<void> _fetchColors() async {
 
     // Replace this with your data and index
-    List<List<String>> data = [[Name]];
+    List<List<String>> data=[[]];
+    const storage = FlutterSecureStorage();
+    Name = (await storage.read(key: "Name")) ?? "";
+    data[0].add(Name);
     int index = 0;
-
+    
     List<List<List<String>>> colors = await fetchColors(data, index);
     setState(() {
       _colors = colors;
