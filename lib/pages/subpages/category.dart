@@ -24,11 +24,12 @@ Future<List<List<String>>> getCompanyList(int index, String collectionName) asyn
         String Address = doc['Address'];
         String Rating = doc['Rating'].toString();
         String Special = doc['Special'].toString();
-        
+        String Phone = doc['Phone'].toString();
         CompDet.add(Name);
         CompDet.add(Address);
         CompDet.add(Rating);
         CompDet.add(Special);
+        CompDet.add(Phone);
         
         categoryValues.add(CompDet);
       }

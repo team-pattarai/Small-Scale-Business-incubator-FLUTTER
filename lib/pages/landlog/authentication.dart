@@ -65,7 +65,7 @@ String password_gen(String passkey){
   return false;
 }
 
-Future<bool> Configure(String name,String addy,String category,List services,String Email,String Speciality) async {
+Future<bool> Configure(String name,String addy,String category,List services,String Email,String Speciality, String phone) async {
   var db = await DB.getDB();  
   if (db != null) { 
     var collection = db.collection("StartUp");
@@ -76,7 +76,8 @@ Future<bool> Configure(String name,String addy,String category,List services,Str
       'Services':services,
       'Rating':"0",
       'Special':Speciality,
-      'Email':Email
+      'Email':Email,
+      'Phone':phone
     });
     var collection1 = db.collection("UserManagerment");
     var selector = where.eq('user', Email); 

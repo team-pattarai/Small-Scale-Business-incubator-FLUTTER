@@ -16,6 +16,7 @@ class _ConfigurePageState extends State<ConfigurePage> {
   final TextEditingController _location = TextEditingController();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _speciality = TextEditingController();
+  final TextEditingController _phone = TextEditingController();
   String? _selectedCategory;
   final List<String> _options = [
     'Catering',
@@ -40,9 +41,10 @@ class _ConfigurePageState extends State<ConfigurePage> {
     String category = _selectedCategory ?? '';
     String email = _email.text;
     String spec = _speciality.text;
+    String phone = _phone.text;
     
     try {
-      if (await Configure(companyName, addy, category, services, email, spec)) {
+      if (await Configure(companyName, addy, category, services, email, spec,phone)) {
         Navigator.push(
           context,
           PageRouteBuilder(
@@ -127,6 +129,7 @@ class _ConfigurePageState extends State<ConfigurePage> {
                 _buildTextField(_email, 'Email', 'Enter Login Email', Icons.email_rounded),
                 _buildTextField(_location, 'Address', 'Enter your Location', Icons.location_city_rounded),
                 _buildTextField(_speciality, 'Speciality', 'Enter your Speciality', Icons.favorite),
+                _buildTextField(_phone, 'Phone Number', 'Enter your Phone number', Icons.contact_phone_rounded),
                 _buildDropdown(),
                 _buildAddServiceButton(),
                 _buildServicesList(),
