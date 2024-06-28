@@ -32,7 +32,7 @@ class Homepage extends StatelessWidget {
     "assets/images/technical.jpg",
     "assets/images/petcare.jpg",
     "assets/images/spa.jpg",
-    "assets/images/catering.jpg"
+    "assets/images/otherlogo.jpg"
   ];
 
   final List<String> collections = [
