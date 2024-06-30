@@ -33,7 +33,6 @@ String password_gen(String passkey){
   var bytes = utf8.encode("PPPPIIIICCCCOOOOLLLLLLLLOOOOaaaaffffffffaaaarrrriiii"); 
   var hmacSha256 = Hmac(sha256, key); // HMAC-SHA256 
   var digest = hmacSha256.convert(bytes); 
-  print("HMAC digest as hex string: $digest"); 
 
   return digest.toString();
 }Future<bool> Signupup(String username, String password, String email, String mode, String confPassword) async {
@@ -60,13 +59,13 @@ String password_gen(String passkey){
 
     }
   } catch (e) {
-
+    
   }
   
   return false;
 }
 
-Future<bool> Configure(String name,String addy,String category,List services,String Email,String Speciality) async {
+Future<bool> Configure(String name,String addy,String category,List services,String Email,String Speciality, String phone) async {
   var db = await DB.getDB();  
   if (db != null) { 
     var collection = db.collection("StartUp");
@@ -77,12 +76,14 @@ Future<bool> Configure(String name,String addy,String category,List services,Str
       'Services':services,
       'Rating':"0",
       'Special':Speciality,
-      'Email':Email
+      'Email':Email,
+      'Phone':phone
     });
     var collection1 = db.collection("UserManagerment");
     var selector = where.eq('user', Email); 
     var modifier = modify.set('init', 'true'); 
     await collection1.update(selector, modifier);
+    addsession(Email, db, "Seller");
     return true;
 
   }
@@ -136,9 +137,12 @@ Future<bool> addOrder(List counter,List services,String companyName) async {
         orders.add(tempList); 
       }
     }
+    const storage = FlutterSecureStorage();
+    String username;
+    username = (await storage.read(key: "Name")) ?? "";
     await collection.insert({
       "to":companyName,
-      "from":"userr",
+      "from":username,
       "orders":orders,
       "status":"ongoing"
     });
@@ -154,12 +158,19 @@ Future<List<Map<String, dynamic>>> fetchOrders() async {
   List<Map<String, dynamic>> ordersList = [];
 
   if (db != null) {
+    const storage = FlutterSecureStorage();
     var collection = db.collection("Orders");
-    final results = await collection.find().toList();
-
+    String? name = await storage.read(key: "Name");
+    var results;
+    results = await collection.find(where.eq('to', name.toString())).toList();
     for (var order in results) {
       ordersList.add(order);
     }
+    results = await collection.find(where.eq('from', name.toString())).toList();
+    for (var order in results) {
+      ordersList.add(order);
+    }
+
   }
 
   return ordersList;
@@ -179,9 +190,9 @@ Future<bool> markDone(Map<String, dynamic> order) async {
     );
 
     if (result['nModified'] == 1) {
-      return true;
-    } else {
       return false;
+    } else {
+      return true;
     }
   } catch (e) {
     return false;
@@ -196,10 +207,14 @@ Future<void> addsession(String username, Db db, user,) async {
   const storage = FlutterSecureStorage();
   var details= await findByStartup(username, db);
   await storage.write(key: "user", value: username);
+  try{
   if(user=='Seller'){
     await storage.write(key: 'Addy',value: details[0]['Address']);
     await storage.write(key: "Name", value: details[0]['Name']);
     await storage.write(key: 'mode', value: "Seller");
   }
   await storage.write(key: "Status", value: "cached");
+  }
+  catch(e){
+  }
   }

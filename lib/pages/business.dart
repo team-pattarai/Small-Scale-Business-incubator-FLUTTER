@@ -3,6 +3,7 @@ import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/pages/landlog/authentication.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:vitality/vitality.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 double height = 0;
 
@@ -10,7 +11,7 @@ class Business extends StatefulWidget {
   final List<List<String>> data;
   final int index;
 
-  const Business({Key? key, required this.data, required this.index}) : super(key: key);
+  const Business({super.key, required this.data, required this.index});
 
   @override
   State<Business> createState() => _BusinessState();
@@ -94,6 +95,7 @@ class BlueGreyContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(data);
     return Container(
       height: 80,
       width: double.maxFinite,
@@ -104,24 +106,53 @@ class BlueGreyContainer extends StatelessWidget {
           bottomRight: Radius.circular(25),
         ),
       ),
-      child: Column(
+      child: Row(
         children: [
-          Text(data[1], style: const TextStyle(fontSize: 18), maxLines: 2),
-          const SizedBox(height: 10),
-          Row(
+          const SizedBox(width: 20,),
+          Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              int.parse(data[2]),
-              (index) => const Icon(
-                Icons.star,
-                color: Color.fromARGB(255, 11, 63, 77),
-                size: 20,
+            children: [
+              Text(data[1], style: const TextStyle(fontSize: 18), maxLines: 2),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  int.parse(data[2]),
+                  (index) => const Icon(
+                    Icons.star,
+                    color: Color.fromARGB(255, 11, 63, 77),
+                    size: 20,
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
+          const Spacer(),
+          InkWell(
+            onTap: () async {
+              try {
+                await _callBusiness(data[4]);
+              } catch (e) {
+                print('Error calling business: $e');
+              }
+            },
+            child:Icon(Icons.call,size: 30,) ,
+          )
+          ,
+          const SizedBox(width: 20,)
         ],
       ),
     );
+  }
+}
+
+Future<void> _callBusiness(String phoneNumber) async {
+  final Uri launchUri = Uri(
+    scheme: 'tel',
+    path: phoneNumber,
+  );
+  if (!await launchUrl(launchUri)) {
+    throw 'Could not launch $launchUri';
   }
 }
 
@@ -134,14 +165,14 @@ class HorizontalSnapList extends StatefulWidget {
   final int index; // Add the index parameter
 
   const HorizontalSnapList({
-    Key? key,
+    super.key,
     required this.colors,
     required this.counter,
     required this.incrementCount,
     required this.decrementCount,
     required this.data,
     required this.index,
-  }) : super(key: key);
+  });
 
   @override
   _HorizontalSnapListState createState() => _HorizontalSnapListState();
@@ -323,11 +354,18 @@ class _HorizontalSnapListState extends State<HorizontalSnapList> {
                     color: Colors.grey,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Center(
-                    child: Text(
+                  child: Center(
+                    child:InkWell(
+                      onTap:() {
+                        Navigator.of(context).pop();
+                      },
+                      child:const Text(
                       "Cancel",
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ), 
                     ),
+                    
+                     
                   ),
                 ),
                 const Spacer(),

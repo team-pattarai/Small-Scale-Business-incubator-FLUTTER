@@ -58,7 +58,7 @@ class _SignUpState extends State<SignUp> {
               ),
               child: const Center(
                 child: Text(
-                  'Login failed',
+                  'Signup failed',
                   style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'Capriola',

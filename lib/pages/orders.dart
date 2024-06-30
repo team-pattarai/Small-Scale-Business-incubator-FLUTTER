@@ -136,9 +136,20 @@ class OrderListView extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ListTile(
-                      title: Text(
-                        order['to'] ?? 'No Name',
-                        style: const TextStyle(fontSize: 20),
+                      title: Row(
+                        children: [
+                          Text(
+                            order['from'] ?? 'No Name',
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          const Spacer(),
+                          const Icon(Icons.arrow_circle_right_rounded),
+                          const Spacer(),
+                          Text(
+                            order['to'] ?? 'No Name',
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ],
                       ),
                       subtitle: Text('Date: ${order['date'] ?? 'No Date'}'),
                     ),
